@@ -1,0 +1,193 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kanban Board</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="body-container">
+
+    <!-------------------------THIS IS FOR THE NAVIGATION TAB--------------------------------->
+    <nav>
+      <div class="app-title">
+        <div class="text-title">
+          <h1>Kanban Board</h1>
+        </div>
+      </div>
+
+      <div class="list-container">
+        <div class="list-container-title">
+          Master List
+        </div>
+
+        <div class="search-container">
+          <div class="search-bar">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search...">
+          </div>
+        </div>
+
+        <div class="master-list-container">
+          <ul>
+            <li>Sample Task</li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+
+
+
+    <!-------------------------THIS IS FOR THE MAIN TAB--------------------------------->
+    <main>
+
+      <div class="category-title">
+        <h1>SAMPLE TASK</h1>
+      </div>
+
+      <div class="newtask-filter-tab">
+        <div class="new-task-btn">
+          <i class="fa-solid fa-plus"></i>
+          <span>New Task</span>
+        </div>
+        <div class="filter-btn">
+          <i class="fa-solid fa-filter"></i>
+          <span>filter</span>
+        </div>
+      </div>
+
+      <!--PROGRESSION CONTAINER-->
+      <div class="progression-content-container">
+
+        <div class="todo-container">
+          <div class="todo-progression-container">
+            <div class="todo-progression">
+              <span class="progression-title">To Do</span>
+              <span class="progression-count progression-count-todo">10</span>
+            </div>
+          </div>
+          <div class="todo-progress-list progression-list">
+            <ul>
+
+              <!--THIS IS FOR LIST INFORMATION-->
+              <li>
+                <div class="task-container">
+
+
+                  <div class="task-title">
+                    <h3>task title</h3>
+                    <i class="fa-solid fa-trash"></i>
+                  </div>
+                  
+                  <div class="line">
+                  </div>
+
+                  <div class="task-description">
+                    <p>description</p>
+                  </div>
+
+
+                  <div class="task-details">
+                    <div class="task-comment-date">
+                      <div class="task-comment">
+                        <i class="fa-regular fa-comment"></i>
+                        <p>0</p>
+                      </div>
+                      <div class="task-date">
+                        <i class="fa-regular fa-calendar"></i>
+                        <span>date</span>
+                      </div>
+                    </div>
+                    <div class="task-status">
+                      <i class="fa-regular fa-flag"></i>
+                    </div>
+                  </div>
+
+
+                </div>
+              </li>
+
+
+            </ul>
+          </div>
+        </div>
+
+        <div class="doing-container">
+          <div class="doing-progression-container">
+            <div class="doing-progression">
+              <span class="progression-title">Doing</span>
+              <span class="progression-count progression-count-doing">10</span>
+            </div>
+          </div>
+          <div class="doing-progress-list progression-list">
+            <ul>
+
+            </ul>
+          </div>
+        </div>
+
+        <div class="done-container">
+          <div class="done-progression-container">
+            <div class="done-progression">
+              <span class="progression-title">Done</span>
+              <span class="progression-count progression-count-done">10</span>
+            </div>
+          </div>
+          <div class="done-progress-list progression-list">
+            <ul>
+
+            </ul> 
+            
+          </div>
+        </div>
+
+
+        <!------------------------------------THIS IS FOR DATA INFORMATION-------------------------------->
+        <div class="data-container">
+
+          <div class="total-tasks-container">
+            <div class="total-tasks">
+              <div class="total-task-title">
+                <h2>Total Tasks</h2>
+              </div>
+              <div class="number-of-tasks">
+                <div class="number">
+                  <h3>100</h3>
+                </div>
+                <div class="new-update">
+                  <div class="arrow-up-down">
+                    <!-- <i class="fa-solid fa-caret-up"></i> -->
+                    <!-- <i class="fa-solid fa-caret-down"></i> -->
+                    <i class="fa-solid fa-angles-up"></i>
+                    <!-- <i class="fa-solid fa-angles-down"></i> -->
+                  </div>
+                  <div class="numbers-added-subtracted">
+                    <span>+</span>
+                    <span>5</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="data-graph-container">
+            <div class="data-graph">
+
+            </div>
+          </div>
+
+        </div>
+
+
+
+      </div>
+
+    </main>
+  </div>
+</body>
+</html>
