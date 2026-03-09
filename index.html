@@ -6,7 +6,6 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
   <link href="https://fonts.googleapis.com" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
 </head>
 <body>
   <div class="body-container">
@@ -177,7 +176,9 @@
 
           <div class="data-graph-container">
             <div class="data-graph">
-
+              <div class="chart-js">
+                 <canvas id="myChart" width="300" height="300"></canvas>
+              </div>
             </div>
           </div>
 
@@ -189,5 +190,8 @@
 
     </main>
   </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="chart.js"></script>
 </body>
 </html>

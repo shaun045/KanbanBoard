@@ -302,12 +302,12 @@ main {
 
 
 :root {
-  --todo-color: #ffe1b9;
-  --todo-color2: #FFA116;
-  --doing-color: #bad6ff;
-  --doing-color2: #007AFF;
-  --done-color: #e7d0ff;
-  --done-color2: #A855F7;
+  --todo-color:  rgba(255, 225, 185, 1);
+  --todo-color2: rgba(255, 161, 22, 1);
+  --doing-color: rgba(186, 214, 255, 1);
+  --doing-color2: rgba(0, 122, 255, 1);
+  --done-color: rgba(231, 208, 255, 1);
+  --done-color2: rgba(168, 85, 247, 1);
 }
 
 
@@ -626,7 +626,7 @@ main {
 
 /* ------------------------------------> THIS IS FOR DATA CONTAINER <-----------------------------------*/
 .data-container {
-  border: 1px solid;
+  /* border: 1px solid; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -648,16 +648,20 @@ main {
 
 
 .total-tasks {
-  border: 1px solid;
+  /* border: 1px solid; */
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  /* padding: 50px 100px; */
   margin: 20px 0px;
-  width: 230px;
+  width: 250px;
   padding-bottom: 50px;
   flex-direction: column;
+  border-radius: 10px;
+  color: white;
+  background-color: var(--color11);
+  /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); */
+  box-shadow: -5px 5px 5px rgba(0, 0, 0, 0.5);
 }
 
 
@@ -670,6 +674,7 @@ main {
   width: 100%;
   padding: 10px 0px;
   padding-left: 15px;
+  margin-left: 15px;
 }
 
 
@@ -709,12 +714,16 @@ main {
 }
 
 .new-update {
-  border: 1px solid;
+  /* border: 1px solid; */
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1px 6px;
+  padding: 3px 8px;
   border-radius: 3px;
+  margin-right: 15px;
+  color: rgb(29, 243, 29);
+  background-color: rgba(131, 241, 131, 0.5);
+  background: blur(50px);
 }
 
 
@@ -743,7 +752,7 @@ main {
 
 
 .data-graph-container {
-  border: 1px solid;
+  /* border: 1px solid; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -752,11 +761,23 @@ main {
 }
 
 .data-graph {
-  border: 1px solid;
+  /* border: 1px solid; */
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  padding: 220px 270px;
-  margin-bottom: 100px;
+  padding: 35px 35px;
+  margin-bottom: 130px;
+  width: 1000px;
 }
 
+#myChart {
+  padding: 25px;
+}
+
+.chart-js {
+  width: 70%;
+  background-color: var(--color11);
+  padding: 0px 20px;
+  border-radius: 10px;
+  box-shadow: -10px 10px 8px rgba(0, 0, 0, 0.5);
+}
