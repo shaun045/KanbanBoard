@@ -461,7 +461,16 @@ main {
   /* height: 200px; */
   border-radius: 10px;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
-  
+  transition: all 0.2s ease-in-out;
+}
+
+.task-container:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.task-container:active {
+  transform: scale(0.95);
 }
 
 .task-title {
@@ -633,6 +642,16 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 999;
+}
+
+.modal {
+  display: none;
+}
+
+
+.modal.open {
+  display: flex;
 }
 
 
@@ -641,11 +660,14 @@ main {
   justify-content: center;
   align-items: center;
   position: relative;
-  width: 30%;
+  /* width: 30%; */
   height: 390px;
   margin-bottom: 200px;
   border-radius: 15px;
   background-color: white;
+  flex: 1;
+  max-width: 600px;
+  min-width: 30px;
 }
 
 .modal-inset-container {
