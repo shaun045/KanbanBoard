@@ -304,10 +304,13 @@ main {
 :root {
   --todo-color:  rgba(255, 225, 185, 1);
   --todo-color2: rgba(255, 161, 22, 1);
+  --todo-color3: rgb(252, 245, 237);
   --doing-color: rgba(186, 214, 255, 1);
   --doing-color2: rgba(0, 122, 255, 1);
+  --doing-color3: rgb(236, 240, 247);
   --done-color: rgba(231, 208, 255, 1);
   --done-color2: rgba(168, 85, 247, 1);
+  --done-color3: rgb(241, 236, 247);
 }
 
 
@@ -458,9 +461,9 @@ main {
   position: relative;
   flex-direction: column;
   margin: 10px 10px;
-  /* height: 200px; */
   border-radius: 10px;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  background-color: var(--todo-color3);
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
   transition: all 0.2s ease-in-out;
 }
 
@@ -639,14 +642,10 @@ main {
   position: fixed;
   inset: 0;
 
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   z-index: 999;
-}
-
-.modal {
-  display: none;
 }
 
 
@@ -669,6 +668,26 @@ main {
   max-width: 600px;
   min-width: 30px;
 }
+
+
+.modal.open .modal-background-container {
+  animation: openAnim 0.3s ease;
+}
+
+@keyframes openAnim {
+  0% {
+    transform: translatey(50px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+
+
+
 
 .modal-inset-container {
   /* border: 1px solid; */
@@ -1009,6 +1028,7 @@ textarea {
   align-items: center;
   width: 100%;
   height: 100%; 
+  overflow: hidden;
 }
 
 .data-graph {
@@ -1016,9 +1036,10 @@ textarea {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 35px 35px;
+  /* padding: 35px 35px; */
   margin-bottom: 130px;
-  width: 1000px;
+  width: 100%;
+  padding: 35px;
 }
 
 #myChart {
@@ -1031,4 +1052,5 @@ textarea {
   padding: 0px 20px;
   border-radius: 10px;
   box-shadow: -10px 10px 8px rgba(0, 0, 0, 0.5);
+  width: 500px;
 }
