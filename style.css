@@ -302,12 +302,12 @@ main {
 
 
 :root {
-  --todo-color: #ffe1b9;
-  --todo-color2: #FFA116;
-  --doing-color: #bad6ff;
-  --doing-color2: #007AFF;
-  --done-color: #e7d0ff;
-  --done-color2: #A855F7;
+  --todo-color:  rgba(255, 225, 185, 1);
+  --todo-color2: rgba(255, 161, 22, 1);
+  --doing-color: rgba(186, 214, 255, 1);
+  --doing-color2: rgba(0, 122, 255, 1);
+  --done-color: rgba(231, 208, 255, 1);
+  --done-color2: rgba(168, 85, 247, 1);
 }
 
 
@@ -624,9 +624,240 @@ main {
 
 
 
+/*----------------------------------------> THIS IS FOR MODAL <------------------------------------- */
+.modal {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.modal-background-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 30%;
+  height: 390px;
+  margin-bottom: 200px;
+  border-radius: 15px;
+  background-color: white;
+}
+
+.modal-inset-container {
+  /* border: 1px solid; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 360px;
+  flex-direction: column;
+  padding: 30px;
+  overflow: hidden;
+}
+
+
+
+.exit-button-container {
+  /* border: 1px solid; */
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  height: 25px;
+  position: absolute;
+  margin-bottom: 350px;
+  margin-right: 20px;
+}
+
+.exit-button-container i {
+  /* border: 1px solid; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.exit-button-container i:hover {
+  color: rgb(236, 71, 71);
+}
+
+
+
+
+/* THIS IS FOR THE TITLE*/
+
+.modal-title-container {
+  /* border: 1px solid; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 0px;
+}
+
+.modal-title-input {
+  /* border: 1px solid; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.modal-title-input input {
+  /* border: 1px solid; */
+  border: none;
+  outline: none;
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: var(--color3);
+}
+
+.modal-title-container i{
+  /* border: 1px solid; */
+  flex-shrink: 0;
+  font-size: 25px;
+  margin-bottom: 4px;
+  padding-left: 10px;
+}
+
+
+
+
+/* THIS IS FOR THE DESCRIPTION*/
+
+.modal-description-container {
+  /* border: 1px solid; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
+  height: 100%;
+}
+
+
+textarea {
+  font-family: "Poppins";
+  border: none;
+  outline: none;
+  resize: none;
+  padding: 15px;
+  width: 100%;
+  border-radius: 8px;
+  background-color: var(--color3);
+}
+
+
+
+
+/* THIS IS FOR THE DETAILS*/
+
+.modal-details-container {
+  /* border: 1px solid; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.modal-comment-display {
+  /* border: 1px solid; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 0;
+  width: 65px;
+  gap: 5px;
+  padding: 0px 10px;
+  border-radius: 10px;
+  /* background-color: rgba(107, 107, 107, 0.096); */
+  color: white;
+  background-color: var(--color9);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.modal-comment-display:hover {
+  transform: scale(1.02);
+}
+
+.modal-comment-display:active {
+  transform: scale(0.95);
+}
+
+.modal-comment-display p {
+  font-size: 20px;
+}
+
+.modal-comment-display i {
+  font-size: 25px;
+}
+
+
+.modal-date-display {
+  /* border: 1px solid; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 0;
+  width: 130px;
+  gap: 5px;
+  border-radius: 10px;
+  padding: 0px 5px;
+  /* background-color: rgba(107, 107, 107, 0.096); */
+  color: white;
+  background-color: var(--color9);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+
+.modal-date-display:hover {
+  transform: scale(1.02);
+}
+
+.modal-date-display:active {
+  transform: scale(0.95);
+}
+
+
+.modal-date-display i {
+  font-size: 25px;
+}
+
+
+.modal-date-display p {
+  font-size: 20px;
+}
+
+.modal-flag-review {
+  /* border: 1px solid; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.modal-flag-review i {
+  font-size: 25px;
+}
+
+
+
+
+
 /* ------------------------------------> THIS IS FOR DATA CONTAINER <-----------------------------------*/
 .data-container {
-  border: 1px solid;
+  /* border: 1px solid; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -648,16 +879,20 @@ main {
 
 
 .total-tasks {
-  border: 1px solid;
+  /* border: 1px solid; */
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
-  /* padding: 50px 100px; */
+  /* position: relative; */
   margin: 20px 0px;
-  width: 230px;
-  padding-bottom: 50px;
+  width: 250px;
+  padding-bottom: 20px;
   flex-direction: column;
+  border-radius: 10px;
+  color: white;
+  background-color: var(--color11);
+  /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); */
+  box-shadow: -5px 5px 5px rgba(0, 0, 0, 0.5);
 }
 
 
@@ -670,6 +905,7 @@ main {
   width: 100%;
   padding: 10px 0px;
   padding-left: 15px;
+  margin-left: 15px;
 }
 
 
@@ -687,13 +923,11 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: absolute;
+  /* position: absolute; */
   width: 100%;
   line-height: 0;
   padding: 0px 10px;
-  margin-top: 80px;
-  /* margin: 5px 0px;
-  margin-bottom: 10px; */
+  /* margin-top: 80px; */
 }
 
 
@@ -709,12 +943,16 @@ main {
 }
 
 .new-update {
-  border: 1px solid;
+  /* border: 1px solid; */
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1px 6px;
+  padding: 3px 8px;
   border-radius: 3px;
+  margin-right: 15px;
+  color: rgb(29, 243, 29);
+  background-color: rgba(131, 241, 131, 0.5);
+  background: blur(50px);
 }
 
 
@@ -743,7 +981,7 @@ main {
 
 
 .data-graph-container {
-  border: 1px solid;
+  /* border: 1px solid; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -752,11 +990,23 @@ main {
 }
 
 .data-graph {
-  border: 1px solid;
+  /* border: 1px solid; */
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  padding: 220px 270px;
-  margin-bottom: 100px;
+  padding: 35px 35px;
+  margin-bottom: 130px;
+  width: 1000px;
 }
 
+#myChart {
+  padding: 25px;
+}
+
+.chart-js {
+  width: 70%;
+  background-color: var(--color11);
+  padding: 0px 20px;
+  border-radius: 10px;
+  box-shadow: -10px 10px 8px rgba(0, 0, 0, 0.5);
+}

@@ -6,7 +6,6 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
   <link href="https://fonts.googleapis.com" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
 </head>
 <body>
   <div class="body-container">
@@ -146,6 +145,68 @@
         </div>
 
 
+
+
+        <!------------------------------------THIS IS FOR MODAL-------------------------------->
+        <div class="modal">
+          <div class="modal-background-container">
+            <div class="modal-inset-container">
+
+
+              <div class="exit-button-container">
+                <i class="fa-solid fa-xmark"></i>
+              </div>
+              <div class="modal-title-container">
+                <div class="modal-title-input">
+                  <input type="text" placeholder="Enter title...">
+                </div>
+                <div class="modal-edit-title-input">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </div>
+              </div>
+
+
+
+              <div class="modal-description-container">
+                <textarea cols="10" rows="10" placeholder="Enter description..."></textarea>
+              </div>
+
+
+
+              <div class="modal-details-container">
+                <div class="modal-comment-display">
+                  <i class="fa-regular fa-comment"></i>
+                  <p>1</p>
+                </div>
+                <div class="modal-date-display">
+                  <i class="fa-regular fa-calendar"></i>
+                  <div class="modal-calendar-selection">
+                    <p>Nov, 9</p>
+                  </div>
+                </div>
+                <div class="modal-flag-review">
+                  <i class="fa-regular fa-flag"></i>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <!------------------------------------THIS IS FOR DATA INFORMATION-------------------------------->
         <div class="data-container">
 
@@ -177,7 +238,9 @@
 
           <div class="data-graph-container">
             <div class="data-graph">
-
+              <div class="chart-js">
+                 <canvas id="myChart" width="300" height="300"></canvas>
+              </div>
             </div>
           </div>
 
@@ -189,5 +252,8 @@
 
     </main>
   </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="chart.js"></script>
 </body>
 </html>
