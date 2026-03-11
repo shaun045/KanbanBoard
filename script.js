@@ -111,7 +111,9 @@ const editIcon = document.querySelector(".modal-edit-title-input i");
 progressionTaskLists.forEach(list => {
   list.addEventListener('click', (e) => {
     const clickedTask = e.target.closest(".task-container");
-      if (clickedTask) {
+    const isDeleteBtn = e.target.closest(".task-title i");
+
+      if (clickedTask && !isDeleteBtn) {
         currentTaskId = Number(clickedTask.dataset.id);
 
         const allTasks = [...tasks.todo, ...tasks.doing, ...tasks.done];
@@ -157,6 +159,7 @@ closeModalBtn.addEventListener('click', () => {
     taskCard.querySelector('.task-description p').textContent = taskData.description;
   }
 
+  console.log(tasks);
   editIcon.classList.remove("open");
   kanbanModal.classList.remove("open");
 })
@@ -169,17 +172,27 @@ closeModalBtn.addEventListener('click', () => {
 
 
 /* ------------------------------------> THIS IS FOR DELETING TASK ITEMS <------------------------------------*/
-// const deleteTaskButton = document.querySelectorAll(".task-title i");
 
 
-// allProgressionLists.addEventListener("click", (e) => {
-//   const deleteTaskButton = e.target.closest(".task-title i");
+progressionTaskLists.forEach(list => {
+  list.addEventListener('click', (e) => {
+    const deleteTaskButton = e.target.closest(".task-title i");
 
-//   if (!deleteTaskButton) return;
+    if (!deleteTaskButton) return;
 
-//   if (deleteTaskButton) {
-//     const selectedTask = e.target.closest("li");
+    const taskCard = e.target.closest(".task-container");
+    const taskId = Number(taskCard.dataset.id);
 
-//     // const taskId = selectedTask.dataset.id;
-//   }
-// })
+    tasks.todo = tasks.todo.filter(task => task.id !== taskId);
+    tasks.doing = tasks.doing.filter(task => task.id !== taskId);
+    tasks.done = tasks.done.filter(task => task.id !== taskId);
+
+    taskCard.remove();
+  })
+})
+
+
+
+
+
+
