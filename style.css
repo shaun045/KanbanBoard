@@ -731,6 +731,15 @@ main {
 }
 
 
+/* THIS IS FOR THE READ ONLY INPUT ATTRIBUTE */
+.modal-title-input input:read-only,
+textarea:read-only {
+  background-color: #e5e5e5;
+  color: #666;
+  cursor: not-allowed;
+}
+
+
 
 
 /* THIS IS FOR THE TITLE*/
@@ -766,8 +775,23 @@ main {
   /* border: 1px solid; */
   flex-shrink: 0;
   font-size: 25px;
-  margin-bottom: 4px;
   padding-left: 10px;
+  cursor: pointer;
+  color: var(--color11);
+  transition: all 0.2s ease-in-out;
+}
+
+.modal-title-container i:hover {
+  color: var(--color7);
+  transform: scale(1.1);
+}
+
+.modal-title-container i:active {
+  transform: scale(0.95);
+}
+
+.modal-title-container i.open {
+  color: var(--color7);
 }
 
 

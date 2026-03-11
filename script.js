@@ -94,6 +94,20 @@ function renderTask(taskData) {
   todoTaskList.appendChild(newTask);
 }
 
+
+/* ------------------------------------>THIS IS FOR ADDING NEW TASK<------------------------------------ */
+addNewTask.addEventListener('click', () => {
+  taskTitle.value = "Task Title";
+  taskDescription.value = "Task Description";
+  const taskData = getTaskInformation();
+  tasks.todo.push(taskData);
+  renderTask(taskData);
+})
+
+
+/* ------------------------------------>THIS IS FOR OPENING MODAL<------------------------------------ */
+const editIcon = document.querySelector(".modal-edit-title-input i");
+
 progressionTaskLists.forEach(list => {
   list.addEventListener('click', (e) => {
     const clickedTask = e.target.closest(".task-container");
@@ -107,17 +121,18 @@ progressionTaskLists.forEach(list => {
         taskDescription.value = existingTask.description;
 
         kanbanModal.classList.add("open");
+        taskTitle.setAttribute("readonly", true);
+        taskDescription.setAttribute("readonly", true);
       };
     });
 });
 
 
-/* ------------------------------------>THIS IS FOR ADDING NEW TASK<------------------------------------ */
-addNewTask.addEventListener('click', () => {
-  const taskData = getTaskInformation();
-  tasks.todo.push(taskData);
-  renderTask(taskData);
-
+editIcon.addEventListener('click', () => {
+  taskTitle.removeAttribute("readonly");
+  taskDescription.removeAttribute("readonly");
+  taskTitle.focus();
+  editIcon.classList.add("open");
 })
 
 
@@ -142,7 +157,7 @@ closeModalBtn.addEventListener('click', () => {
     taskCard.querySelector('.task-description p').textContent = taskData.description;
   }
 
-  console.log(tasks);
+  editIcon.classList.remove("open");
   kanbanModal.classList.remove("open");
 })
 
