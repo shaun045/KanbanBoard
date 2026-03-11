@@ -27,6 +27,8 @@ let tasks = {
   done: []
 };
 let currentTaskId = null;
+let draggedTaskId = null;
+
 
 
 
@@ -59,7 +61,7 @@ function renderTask(taskData) {
   const newTask = document.createElement('li');
 
   newTask.innerHTML = `
-      <div class="task-container" data-id="${taskData.id}">
+      <div class="task-container" data-id="${taskData.id}" draggable="true">
         <div class="task-title">
           <h3>${taskData.title}</h3>
           <i class="fa-solid fa-trash"></i>
@@ -190,6 +192,48 @@ progressionTaskLists.forEach(list => {
     taskCard.remove();
   })
 })
+
+
+
+/* ------------------------------------> THIS IS FOR DRAG AND DROP FEATURE<------------------------------------*/
+progressionTaskLists.forEach(list => {
+  list.addEventListener('dragstart', (e) => {
+    const clickedTaskCard = e.target.closest(".task-container");
+
+    if (!clickedTaskCard) return;
+
+    draggedTaskId = Number(clickedTaskCard.dataset.id);
+
+  })
+})
+
+
+progressionTaskLists.forEach(list => {
+  list.addEventListener('dragover', (e) => {
+    e.preventDefault();
+  })
+})
+
+progressionTaskLists.forEach(list => {
+  list.addEventListener('drop', (e) => {
+    e.preventDefault();
+    const targetColumn = list.dataset.column;
+
+    const allTasks = [...tasks.todo, ...tasks.doing, ...tasks.done];
+    const draggedTaskCard = allTasks.find(task => task.id === draggedTaskId);
+
+    if (!draggedTaskCard) return;
+
+    for (let column in tasks) {
+      tasks[column] = tasks[column].filter(task => task.id !== draggedTaskId)
+    };
+    
+    tasks[targetColumn].push(draggedTaskCard);
+
+    const taskElement = document.querySelector(`[data-id="${draggedTaskId}"]`);
+    list.appendChild(taskElement);
+  });
+});
 
 
 
