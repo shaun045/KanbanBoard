@@ -467,6 +467,26 @@ main {
   transition: all 0.2s ease-in-out;
 }
 
+.task-container.dragging {
+  opacity: 0;
+  transform: rotate(3deg);
+}
+
+
+.task-container.todo {
+  background-color: var(--todo-color3);
+}
+
+.task-container.doing {
+  background-color: var(--doing-color3);
+}
+
+.task-container.done {
+  background-color: var(--done-color3);
+}
+
+
+
 .task-container:hover {
   transform: scale(1.02);
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);

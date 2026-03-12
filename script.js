@@ -199,11 +199,14 @@ progressionTaskLists.forEach(list => {
 progressionTaskLists.forEach(list => {
   list.addEventListener('dragstart', (e) => {
     const clickedTaskCard = e.target.closest(".task-container");
+    const clickedTaskCardId = Number(clickedTaskCard.dataset.id);
 
     if (!clickedTaskCard) return;
 
-    draggedTaskId = Number(clickedTaskCard.dataset.id);
+    draggedTaskId = clickedTaskCardId;
 
+    e.dataTransfer.setDragImage(clickedTaskCard, 0, 0);
+    clickedTaskCard.classList.add("dragging");
   })
 })
 
@@ -231,7 +234,19 @@ progressionTaskLists.forEach(list => {
     tasks[targetColumn].push(draggedTaskCard);
 
     const taskElement = document.querySelector(`[data-id="${draggedTaskId}"]`);
+    taskElement.classList.remove("todo", "doing", "done");
+    taskElement.classList.add(targetColumn);
     list.appendChild(taskElement);
+  });
+});
+
+
+progressionTaskLists.forEach(list => {
+  list.addEventListener("dragend", (e) => {
+    const taskCard = e.target.closest(".task-container");
+    if (!taskCard) return;
+
+    taskCard.classList.remove("dragging");
   });
 });
 
