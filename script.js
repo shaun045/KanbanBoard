@@ -35,10 +35,11 @@ let draggedTaskId = null;
 
 
 /* ------------------------------------> THIS IS FOR GETTING TASK INFORMATION <------------------------------------ */
+const taskContainerCard = document.querySelector(".task-container");
 const taskTitle = document.querySelector(".modal-title-input input");
 const taskDescription = document.querySelector(".modal-description-container textarea");
 const taskComment = document.querySelector(".modal-comment-display");
-const taskDate = document.querySelector(".modal-date-display");
+const taskDateModal = document.querySelector(".modal-date-display");
 const taskStatus = document.querySelector(".modal-flag-review");
 
 
@@ -49,11 +50,10 @@ function getTaskInformation() {
     title: taskTitle.value.trim(),
     description: taskDescription.value.trim(),
     comment: 0,
-    date: "No Date",
+    date: selectedDate,
     status: "none",
     id: Date.now()
   };
-
 }
 
 
@@ -101,9 +101,11 @@ function renderTask(taskData) {
 addNewTask.addEventListener('click', () => {
   taskTitle.value = "Task Title";
   taskDescription.value = "Task Description";
+  selectedDate = "No Date";
   const taskData = getTaskInformation();
   tasks.todo.push(taskData);
   renderTask(taskData);
+  taskContainerCard.classList.add("open");
 })
 
 
@@ -123,6 +125,8 @@ progressionTaskLists.forEach(list => {
 
         taskTitle.value = existingTask.title;
         taskDescription.value = existingTask.description;
+        document.getElementById('date-text').textContent = existingTask.date;
+        selectedDate = existingTask.date;
 
         kanbanModal.classList.add("open");
         taskTitle.setAttribute("readonly", true);
@@ -156,28 +160,33 @@ closeModalBtn.addEventListener('click', () => {
   if (existingTask) {
     existingTask.title = taskData.title;
     existingTask.description = taskData.description;
+    existingTask.date = selectedDate;
 
     taskCard.querySelector('h3').textContent = taskData.title;
     taskCard.querySelector('.task-description p').textContent = taskData.description;
+    taskCard.querySelector('.task-date span').textContent = taskData.date;
   }
 
-  console.log(tasks);
   editIcon.classList.remove("open");
   kanbanModal.classList.remove("open");
+  console.log(tasks);
 })
 
 
 
 /* THIS IS FOR DATE INPUT */
+let selectedDate = "No Date";
 const dateInput = flatpickr("#task-date", {
   dateFormat: "Y-m-d",
   onChange: function(selectedDates, dateStr, instance) {
     const date = selectedDates[0];
-
     const options = { month: "short", day: "numeric"};
     const formatted = date.toLocaleDateString("en-US", options);
 
+
     document.getElementById("date-text").textContent = formatted;
+    selectedDate = formatted;
+    console.log(tasks);
   }
 });
 
@@ -271,6 +280,7 @@ progressionTaskLists.forEach(list => {
     taskCard.classList.remove("dragging");
   });
 });
+
 
 
 

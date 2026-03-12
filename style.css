@@ -262,6 +262,7 @@ main {
   transform: scale(0.95);
 }
 
+
 .filter-btn {
   /* border: 1px solid; */
   display: flex;
@@ -467,6 +468,8 @@ main {
   transition: all 0.2s ease-in-out;
 }
 
+
+
 .task-container.dragging {
   opacity: 0;
   transform: rotate(3deg);
@@ -486,7 +489,6 @@ main {
 }
 
 
-
 .task-container:hover {
   transform: scale(1.02);
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
@@ -495,6 +497,29 @@ main {
 .task-container:active {
   transform: scale(0.95);
 }
+
+
+.task-container.open {
+  animation: popupAnim 0.3s ease
+}
+
+@keyframes popupAnim {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  80% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 
 .task-title {
   /* border: 1px solid; */
