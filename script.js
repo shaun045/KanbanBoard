@@ -195,7 +195,6 @@ const dateInput = flatpickr("#task-date", {
 
     document.getElementById("date-text").textContent = formatted;
     selectedDate = formatted;
-    console.log(tasks);
   }
 });
 
@@ -240,6 +239,7 @@ progressionTaskLists.forEach(list => {
 
     updateCounts();
     taskCard.remove();
+    console.log(tasks);
   })
 })
 

@@ -471,7 +471,7 @@ main {
 
 
 .task-container.dragging {
-  opacity: 0;
+  opacity: 0.4;
   transform: rotate(3deg);
 }
 
@@ -527,9 +527,16 @@ main {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 8px 15px;
-  line-height: 0;
+  padding: 0px 15px;
+  line-height: normal;
 }
+
+.task-title h3 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 
 .task-title i {
   font-size: 13px;
@@ -558,6 +565,17 @@ main {
   align-items: center;
   width: 100%;
 }
+
+.task-description p {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;       
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0px 15px; 
+}
+
+
 
 .line {
   display: flex;
