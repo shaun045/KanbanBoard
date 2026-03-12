@@ -103,6 +103,8 @@ function renderTask(taskData) {
 }
 
 
+
+
 /* ------------------------------------>THIS IS FOR ADDING NEW TASK<------------------------------------ */
 addNewTask.addEventListener('click', () => {
   taskTitle.value = "Task Title";
@@ -111,6 +113,8 @@ addNewTask.addEventListener('click', () => {
   const taskData = getTaskInformation();
   tasks.todo.push(taskData);
   renderTask(taskData);
+  updateCounts();
+  console.log(tasks);
 })
 
 
@@ -203,9 +207,18 @@ dateDisplayPick.addEventListener('click', () => {
 
 
 
+/* ------------------------------------>THIS IS FOR PROGRESSION LIST COUNT<------------------------------------ */
+const progressionCount = document.querySelectorAll(".progression-count");
+const progressionCountTodo = document.querySelector(".progression-count-todo");
+const progressionCountDoing = document.querySelector(".progression-count-doing");
+const progressionCountDone = document.querySelector(".progression-count-done");
 
 
-
+function updateCounts() {
+  progressionCountTodo.textContent = tasks.todo.length;
+  progressionCountDoing.textContent = tasks.doing.length;
+  progressionCountDone.textContent = tasks.done.length;
+}
 
 
 
@@ -225,6 +238,7 @@ progressionTaskLists.forEach(list => {
     tasks.doing = tasks.doing.filter(task => task.id !== taskId);
     tasks.done = tasks.done.filter(task => task.id !== taskId);
 
+    updateCounts();
     taskCard.remove();
   })
 })
@@ -273,6 +287,7 @@ progressionTaskLists.forEach(list => {
     taskElement.classList.remove("todo", "doing", "done");
     taskElement.classList.add(targetColumn);
     list.appendChild(taskElement);
+    updateCounts();
   });
 });
 
