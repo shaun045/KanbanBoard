@@ -168,6 +168,28 @@ closeModalBtn.addEventListener('click', () => {
 
 
 
+/* THIS IS FOR DATE INPUT */
+const dateInput = flatpickr("#task-date", {
+  dateFormat: "Y-m-d",
+  onChange: function(selectedDates, dateStr, instance) {
+    const date = selectedDates[0];
+
+    const options = { month: "short", day: "numeric"};
+    const formatted = date.toLocaleDateString("en-US", options);
+
+    document.getElementById("date-text").textContent = formatted;
+  }
+});
+
+
+const dateDisplayPick = document.querySelector(".modal-date-display");
+dateDisplayPick.addEventListener('click', () => {
+  dateInput.open();
+})
+
+
+
+
 
 
 

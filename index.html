@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
   <link href="https://fonts.googleapis.com" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
   <div class="body-container">
@@ -181,8 +182,9 @@
                 <div class="modal-date-display">
                   <i class="fa-regular fa-calendar"></i>
                   <div class="modal-calendar-selection">
-                    <p>Nov, 9</p>
+                    <p id="date-text">Nov, 9</p> 
                   </div>
+                  <input type="text" id="task-date" class="hidden-date-input">
                 </div>
                 <div class="modal-flag-review">
                   <i class="fa-regular fa-flag"></i>
@@ -193,14 +195,6 @@
             </div>
           </div>
         </div>
-
-
-
-
-
-
-
-
 
 
 
@@ -253,6 +247,7 @@
     </main>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="chart.js"></script>
   <script src="script.js"></script>

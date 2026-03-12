@@ -889,7 +889,6 @@ textarea {
 
 
 .modal-date-display {
-  /* border: 1px solid; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -898,12 +897,13 @@ textarea {
   gap: 5px;
   border-radius: 10px;
   padding: 0px 5px;
-  /* background-color: rgba(107, 107, 107, 0.096); */
   color: white;
   background-color: var(--color9);
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
+
+
 
 
 .modal-date-display:hover {
@@ -923,6 +923,20 @@ textarea {
 .modal-date-display p {
   font-size: 20px;
 }
+
+
+.hidden-date-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+}
+
+.flatpickr-calendar {
+  z-index: 9999;
+}
+
 
 .modal-flag-review {
   /* border: 1px solid; */
