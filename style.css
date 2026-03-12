@@ -509,7 +509,7 @@ main {
     transform: scale(0);
   }
 
-  80% {
+  70% {
     opacity: 1;
     transform: scale(1.1);
   }

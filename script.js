@@ -35,7 +35,6 @@ let draggedTaskId = null;
 
 
 /* ------------------------------------> THIS IS FOR GETTING TASK INFORMATION <------------------------------------ */
-const taskContainerCard = document.querySelector(".task-container");
 const taskTitle = document.querySelector(".modal-title-input input");
 const taskDescription = document.querySelector(".modal-description-container textarea");
 const taskComment = document.querySelector(".modal-comment-display");
@@ -94,6 +93,13 @@ function renderTask(taskData) {
   `;
 
   todoTaskList.appendChild(newTask);
+
+  const taskContainer = newTask.querySelector('.task-container');
+  taskContainer.classList.add('open');
+
+  setTimeout(() => {
+    taskContainer.classList.remove('open');
+  }, 300);
 }
 
 
@@ -105,7 +111,6 @@ addNewTask.addEventListener('click', () => {
   const taskData = getTaskInformation();
   tasks.todo.push(taskData);
   renderTask(taskData);
-  taskContainerCard.classList.add("open");
 })
 
 
