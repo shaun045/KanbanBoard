@@ -60,36 +60,40 @@ function renderTask(taskData) {
   const newTask = document.createElement('li');
 
   newTask.innerHTML = `
-      <div class="task-container" data-id="${taskData.id}" draggable="true">
-        <div class="task-title">
-          <h3>${taskData.title}</h3>
-          <i class="fa-solid fa-trash"></i>
-        </div>
-        
-        <div class="line">
-        </div>
-
-        <div class="task-description">
-          <p>${taskData.description}</p>
-        </div>
-
-
-        <div class="task-details">
-          <div class="task-comment-date">
-            <div class="task-comment">
-              <i class="fa-regular fa-comment"></i>
-              <p>${taskData.comment}</p>
+    <div class="task-wrapper">
+        <div class="urgent-banner"></div>
+          <div class="task-container" data-id="${taskData.id}" draggable="true">
+            <div class="task-title">
+              <h3>${taskData.title}</h3>
+              <i class="fa-solid fa-trash"></i>
             </div>
-            <div class="task-date">
-              <i class="fa-regular fa-calendar"></i>
-              <span>${taskData.date}</span>
+            
+            <div class="line">
+            </div>
+
+            <div class="task-description">
+              <p>${taskData.description}</p>
+            </div>
+
+
+            <div class="task-details">
+              <div class="task-comment-date">
+                <div class="task-comment">
+                  <i class="fa-regular fa-comment"></i>
+                  <p>${taskData.comment}</p>
+                </div>
+                <div class="task-date">
+                  <i class="fa-regular fa-calendar"></i>
+                  <span>${taskData.date}</span>
+                </div>
+              </div>
+              <div class="task-status">
+                <i class="fa-regular fa-flag"></i>
+              </div>
             </div>
           </div>
-          <div class="task-status">
-            <i class="fa-regular fa-flag"></i>
-          </div>
-        </div>
-      </div>
+
+    </div>
   `;
 
   todoTaskList.appendChild(newTask);
@@ -125,8 +129,9 @@ progressionTaskLists.forEach(list => {
   list.addEventListener('click', (e) => {
     const clickedTask = e.target.closest(".task-container");
     const isDeleteBtn = e.target.closest(".task-title i");
+    const urgencyBannerFlag = e.target.closest(".task-status i");
 
-      if (clickedTask && !isDeleteBtn) {
+      if (clickedTask && !isDeleteBtn && !urgencyBannerFlag) {
         currentTaskId = Number(clickedTask.dataset.id);
 
         const allTasks = [...tasks.todo, ...tasks.doing, ...tasks.done];
@@ -248,6 +253,7 @@ progressionTaskLists.forEach(list => {
 /* ------------------------------------> THIS IS FOR DRAG AND DROP FEATURE<------------------------------------*/
 progressionTaskLists.forEach(list => {
   list.addEventListener('dragstart', (e) => {
+    const clickedTaskWrapper = e.target.closest(".task-wrapper");
     const clickedTaskCard = e.target.closest(".task-container");
     const clickedTaskCardId = Number(clickedTaskCard.dataset.id);
 
@@ -256,7 +262,7 @@ progressionTaskLists.forEach(list => {
     draggedTaskId = clickedTaskCardId;
 
     e.dataTransfer.setDragImage(clickedTaskCard, 0, 0);
-    clickedTaskCard.classList.add("dragging");
+    clickedTaskWrapper.classList.add("dragging");
   })
 })
 
@@ -283,10 +289,16 @@ progressionTaskLists.forEach(list => {
     
     tasks[targetColumn].push(draggedTaskCard);
 
+
     const taskElement = document.querySelector(`[data-id="${draggedTaskId}"]`);
+    const taskWrapper = taskElement.closest(".task-wrapper");
     taskElement.classList.remove("todo", "doing", "done");
     taskElement.classList.add(targetColumn);
-    list.appendChild(taskElement);
+    list.appendChild(taskWrapper);
+    taskWrapper.classList.add("dropped");
+    setTimeout(() => {
+      taskWrapper.classList.remove("dropped");
+    }, 300);
     updateCounts();
   });
 });
@@ -294,16 +306,37 @@ progressionTaskLists.forEach(list => {
 
 progressionTaskLists.forEach(list => {
   list.addEventListener("dragend", (e) => {
+    const clickedTaskWrapper = e.target.closest(".task-wrapper");
     const taskCard = e.target.closest(".task-container");
     if (!taskCard) return;
 
-    taskCard.classList.remove("dragging");
+    clickedTaskWrapper.classList.remove("dragging");
   });
 });
 
 
 
+/* ------------------------------------> THIS IS FOR STATUS FLAG/BANNER<------------------------------------*/
+// const taskStatusFlag = document.querySelector(".task-status i");
 
+
+progressionTaskLists.forEach(list => {
+  list.addEventListener('click', (e) => {
+    const urgencyBannerFlag = e.target.closest(".task-status i");
+
+    if (!urgencyBannerFlag) return;
+
+    const taskWrapper = e.target.closest(".task-wrapper")
+    const taskCard = e.target.closest(".task-container");
+    const bannerFlag = taskWrapper.querySelector(".urgent-banner")
+    const taskId = Number(taskCard.dataset.id);
+
+
+    taskWrapper.classList.toggle("urgent");
+    bannerFlag.classList.toggle("open");
+    urgencyBannerFlag.classList.toggle("open");
+  })
+})
 
 
 

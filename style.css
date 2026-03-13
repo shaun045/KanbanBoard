@@ -454,6 +454,51 @@ main {
 
 
 /* --------------------------------> THIS IS FOR THE KANBAN TASKS <--------------------------------*/
+.task-wrapper {
+  position: relative;
+}
+
+.task-wrapper.dragging {
+  opacity: 0.4;
+}
+
+.task-wrapper.dropped {
+  animation: dropAnim 0.3s ease;
+}
+
+@keyframes dropAnim {
+  0% { transform: rotate(3deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.urgent-banner {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  width: 91%;
+  height: 95%;
+  background-color: rgb(236, 84, 84);
+  border-radius: 10px;
+  z-index: 0; 
+  opacity: 0;
+}
+
+.task-container {
+  position: relative;
+  z-index: 1;
+  transition: transform 0.3s ease;
+}
+
+.task-wrapper.urgent .task-container {
+  transform: translateY(5px); 
+}
+
+.urgent-banner.open {
+  opacity: 1;
+}
+
+
+
 .task-container {
   /* border: 1px solid; */
   display: flex;
@@ -466,6 +511,8 @@ main {
   background-color: var(--todo-color3);
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
   transition: all 0.2s ease-in-out;
+
+  /* opacity: 0.8; */
 }
 
 
@@ -696,6 +743,9 @@ main {
   transform: scale(0.90);
 }
 
+.task-status i.open {
+  color: rgb(241, 72, 72);
+}
 
 
 
