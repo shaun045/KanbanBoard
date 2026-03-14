@@ -37,7 +37,6 @@ let draggedTaskId = null;
 /* ------------------------------------> THIS IS FOR GETTING TASK INFORMATION <------------------------------------ */
 const taskTitle = document.querySelector(".modal-title-input input");
 const taskDescription = document.querySelector(".modal-description-container textarea");
-const taskComment = document.querySelector(".modal-comment-display");
 const taskDateModal = document.querySelector(".modal-date-display");
 const taskStatus = document.querySelector(".modal-flag-review");
 
@@ -48,7 +47,7 @@ function getTaskInformation() {
   return {
     title: taskTitle.value.trim(),
     description: taskDescription.value.trim(),
-    comment: 0,
+    comment: [],
     date: selectedDate,
     status: "none",
     id: Date.now()
@@ -142,6 +141,8 @@ progressionTaskLists.forEach(list => {
         document.getElementById('date-text').textContent = existingTask.date;
         selectedDate = existingTask.date;
 
+
+        toggleCommentSection();
         kanbanModal.classList.add("open");
         taskTitle.setAttribute("readonly", true);
         taskDescription.setAttribute("readonly", true);
@@ -156,6 +157,33 @@ editIcon.addEventListener('click', () => {
   taskTitle.focus();
   editIcon.classList.add("open");
 })
+
+
+function updateCommentCounts() {
+
+}
+
+
+const modalBackGroundContainer = document.querySelector(".modal-background-container");
+const modalInsetContainer = document.querySelector(".modal-inset-container");
+const modalExitBtnContainer = document.querySelector(".exit-button-container");
+const commentTaskBtn = document.querySelector(".modal-comment-display");
+function toggleCommentSection() {
+  modalBackGroundContainer.classList.toggle("expanded");
+  modalInsetContainer.classList.toggle("expanded");
+  modalExitBtnContainer.classList.toggle("expanded");
+}
+
+
+function renderComments() {
+
+}
+
+function addComments() {
+
+}
+
+
 
 
 
