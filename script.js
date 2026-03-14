@@ -124,6 +124,7 @@ addNewTask.addEventListener('click', () => {
 /* ------------------------------------>THIS IS FOR OPENING MODAL<------------------------------------ */
 const editIcon = document.querySelector(".modal-edit-title-input i");
 
+
 progressionTaskLists.forEach(list => {
   list.addEventListener('click', (e) => {
     const clickedTask = e.target.closest(".task-container");
@@ -141,14 +142,17 @@ progressionTaskLists.forEach(list => {
         document.getElementById('date-text').textContent = existingTask.date;
         selectedDate = existingTask.date;
 
-
-        toggleCommentSection();
         kanbanModal.classList.add("open");
         taskTitle.setAttribute("readonly", true);
         taskDescription.setAttribute("readonly", true);
       };
     });
 });
+
+const modalComment = document.querySelector(".modal-comment-display");
+modalComment.addEventListener('click', () => {
+  toggleCommentSection();
+})
 
 
 editIcon.addEventListener('click', () => {
@@ -166,12 +170,19 @@ function updateCommentCounts() {
 
 const modalBackGroundContainer = document.querySelector(".modal-background-container");
 const modalInsetContainer = document.querySelector(".modal-inset-container");
-const modalExitBtnContainer = document.querySelector(".exit-button-container");
+const modalCommentSection = document.querySelector(".comment-section");
+const modalInputCommentContainer = document.querySelector(".comment-input-container");
+
 const commentTaskBtn = document.querySelector(".modal-comment-display");
+
+
+
+
 function toggleCommentSection() {
   modalBackGroundContainer.classList.toggle("expanded");
-  modalInsetContainer.classList.toggle("expanded");
-  modalExitBtnContainer.classList.toggle("expanded");
+  // modalInsetContainer.classList.toggle("expanded");
+  modalCommentSection.classList.toggle("expanded");
+  // modalInputCommentContainer.classList.toggle("expanded");
 }
 
 
@@ -208,6 +219,11 @@ closeModalBtn.addEventListener('click', () => {
     taskCard.querySelector('.task-description p').textContent = taskData.description;
     taskCard.querySelector('.task-date span').textContent = taskData.date;
   }
+    
+  modalBackGroundContainer.classList.remove("expanded");
+  modalInsetContainer.classList.remove("expanded");
+  modalCommentSection.classList.remove("expanded");
+
 
   editIcon.classList.remove("open");
   kanbanModal.classList.remove("open");
