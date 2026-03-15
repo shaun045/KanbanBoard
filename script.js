@@ -79,7 +79,7 @@ function renderTask(taskData) {
               <div class="task-comment-date">
                 <div class="task-comment">
                   <i class="fa-regular fa-comment"></i>
-                  <p>${taskData.comment}</p>
+                  <p>${taskData.comment.length}</p>
                 </div>
                 <div class="task-date">
                   <i class="fa-regular fa-calendar"></i>
@@ -141,6 +141,8 @@ progressionTaskLists.forEach(list => {
         document.getElementById('date-text').textContent = existingTask.date;
         selectedDate = existingTask.date;
         renderComments(existingTask.comment);
+        updateCommentCounts();
+
 
         kanbanModal.classList.add("open");
         taskTitle.setAttribute("readonly", true);
@@ -163,9 +165,6 @@ editIcon.addEventListener('click', () => {
 })
 
 
-function updateCommentCounts() {
-
-}
 
 
 const modalBackGroundContainer = document.querySelector(".modal-background-container");
@@ -181,6 +180,18 @@ const commentTaskBtn = document.querySelector(".modal-comment-display");
 function toggleCommentSection() {
   modalBackGroundContainer.classList.toggle("expanded");
   modalCommentSection.classList.toggle("expanded");
+}
+
+
+function updateCommentCounts() {
+  const numberOfCommentDisplay = document.querySelector(".modal-comment-display p");
+
+  const allTasks = [...tasks.todo, ...tasks.doing, ...tasks.done];
+  const existingTask = allTasks.find(task => task.id === currentTaskId);
+
+  const commentCounts = Number(existingTask.comment.length);
+
+  numberOfCommentDisplay.textContent = commentCounts;
 }
 
 
@@ -235,6 +246,11 @@ addModalComment.addEventListener('click', () => {
 
   const newComment = createComment(commentText);
   existingTask.comment.push(newComment);
+  updateCommentCounts();
+
+
+  const taskCard = document.querySelector(`[data-id="${currentTaskId}"]`);
+  taskCard.querySelector('.task-comment p').textContent = existingTask.comment.length;
 
   renderComments(existingTask.comment);
   modalCommentInput.value = '';
