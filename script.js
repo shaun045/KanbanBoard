@@ -194,13 +194,13 @@ function updateCommentCounts() {
   numberOfCommentDisplay.textContent = commentCounts;
 }
 
-
+const commentList = document.querySelector(".comment-ul");
 function renderComments(comments) {
-  const commentList = document.querySelector(".comment-ul");
   commentList.innerHTML = '';
 
   comments.forEach(comment => {
     const li = document.createElement("li");
+    li.dataset.id = comment.id
     li.innerHTML = `
       <div class="modal-comment-container">
         <div class="modal-comment-date-time">
@@ -213,6 +213,9 @@ function renderComments(comments) {
         </div>
         <div class="modal-comment-content">
           <p>${comment.text}</p>
+        </div>
+        <div class="modal-comment-delete">
+          <i class="fa-solid fa-trash"></i>
         </div>
       </div>
     `;
@@ -354,6 +357,46 @@ progressionTaskLists.forEach(list => {
     console.log(tasks);
   })
 })
+
+
+
+
+
+
+/* ------------------------------------> THIS IS FOR DELETING TASK ITEMS <------------------------------------*/
+
+
+commentList.addEventListener('click',(e) => {
+  const deleteBtn = e.target.closest(".modal-comment-delete i");
+  if (!deleteBtn) return;
+
+  const commentLi = e.target.closest("li");
+  const commentId = Number(commentLi.dataset.id);
+
+  const allTasks = [...tasks.todo, ...tasks.doing, ...tasks.done];
+  const existingTask = allTasks.find(task => task.id === currentTaskId);
+  existingTask.comment = existingTask.comment.filter(c => c.id !== commentId);
+
+  commentLi.remove();
+  updateCommentCounts();
+
+  const taskCard = document.querySelector(`[data-id="${currentTaskId}"]`);
+  taskCard.querySelector('.task-comment p').textContent = existingTask.comment.length;
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
