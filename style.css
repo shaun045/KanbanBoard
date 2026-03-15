@@ -146,6 +146,53 @@ nav {
 }
 
 
+.add-new-topic-btn {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  padding: 10px 0px;
+  padding-left: 15px;
+}
+
+.add-new-topic-btn i{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-new-topic-btn span {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+
+.add-new-topic-btn button {
+  display: flex;
+  justify-content: center;
+  padding: 8px 18px;
+  border-radius: 6px;
+  gap: 6px;
+  border: none;
+  font-size: 15px;
+  color: white;
+  background-color: var(--color11);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+
+.add-new-topic-btn button:hover {
+  transform: scale(1.05);
+}
+
+
+.add-new-topic-btn button:active {
+  transform: scale(0.95);
+}
+
+
+
 
 .master-list-container {
   display: flex;
