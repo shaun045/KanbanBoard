@@ -124,7 +124,6 @@ addNewTask.addEventListener('click', () => {
 /* ------------------------------------>THIS IS FOR OPENING MODAL<------------------------------------ */
 const editIcon = document.querySelector(".modal-edit-title-input i");
 
-
 progressionTaskLists.forEach(list => {
   list.addEventListener('click', (e) => {
     const clickedTask = e.target.closest(".task-container");
@@ -141,6 +140,7 @@ progressionTaskLists.forEach(list => {
         taskDescription.value = existingTask.description;
         document.getElementById('date-text').textContent = existingTask.date;
         selectedDate = existingTask.date;
+        renderComments(existingTask.comment);
 
         kanbanModal.classList.add("open");
         taskTitle.setAttribute("readonly", true);
@@ -180,19 +180,66 @@ const commentTaskBtn = document.querySelector(".modal-comment-display");
 
 function toggleCommentSection() {
   modalBackGroundContainer.classList.toggle("expanded");
-  // modalInsetContainer.classList.toggle("expanded");
   modalCommentSection.classList.toggle("expanded");
-  // modalInputCommentContainer.classList.toggle("expanded");
 }
 
 
-function renderComments() {
+function renderComments(comments) {
+  const commentList = document.querySelector(".comment-ul");
+  commentList.innerHTML = '';
 
+  comments.forEach(comment => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <div class="modal-comment-container">
+        <div class="modal-comment-date-time">
+          <div class="comment-date">
+            <p>${comment.date}</p>
+          </div>
+          <div class="comment-time">
+            <p>${comment.time}</p>
+          </div>
+        </div>
+        <div class="modal-comment-content">
+          <p>${comment.text}</p>
+        </div>
+      </div>
+    `;
+    commentList.appendChild(li);
+  });
 }
 
-function addComments() {
 
+
+function createComment(text) {
+  let now = new Date();
+  return {
+    date: now.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }),
+    time: now.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }),
+    text: text,
+    id: Date.now()
+  }
 }
+
+
+
+const addModalComment = document.querySelector(".comment-input-container button");
+const modalCommentInput = document.querySelector(".comment-input-container input");
+
+addModalComment.addEventListener('click', () => {
+  const commentText = modalCommentInput.value.trim();
+  if (!commentText) return;
+
+  const allTasks = [...tasks.todo, ...tasks.doing, ...tasks.done];
+  const existingTask = allTasks.find(task => task.id === currentTaskId);
+
+  const newComment = createComment(commentText);
+  existingTask.comment.push(newComment);
+
+  renderComments(existingTask.comment);
+  modalCommentInput.value = '';
+  console.log(tasks);
+})
 
 
 
