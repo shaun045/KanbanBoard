@@ -31,6 +31,12 @@ let draggedTaskId = null;
 let searchQuery = "";
 
 
+let filterNoDate = false;
+let filterNoTitle = false;
+let filterNoDescription = false;
+let filterUrgent = false;
+
+
 
 
 
@@ -140,14 +146,43 @@ filterSearchInput.addEventListener('input', (e) => {
   filterTasks();
 })
 
+document.querySelector(".filter-no-dates input").addEventListener('change', (e) => {
+  filterNoDate = e.target.checked;
+  filterTasks();
+})
+
+document.querySelector(".filter-no-titles input").addEventListener('change', (e) => {
+  filterNoTitle = e.target.checked;
+  filterTasks();
+})
+
+document.querySelector(".filter-no-description input").addEventListener('change', (e) => {
+  filterNoDescription = e.target.checked;
+  filterTasks();
+})
+
+document.querySelector(".filter-urgent input").addEventListener('change', (e) => {
+  filterUrgent = e.target.checked;
+  filterTasks();
+})
+
 
 function filterTasks() {
   const allTaskCards = document.querySelectorAll(".task-container");
 
   allTaskCards.forEach(card => {
     const title = card.querySelector('h3').textContent.toLowerCase();
+    const date = card.querySelector(".task-date span").textContent;
+    const description = card.querySelector(".task-description p").textContent;
+    const isUrgent = card.closest(".task-wrapper").classList.contains("urgent");
 
-    if (title.includes(searchQuery)) {
+    const matchesSearch = title.includes(searchQuery);
+    const matchesNoDate = !filterNoDate || date === "No Date";
+    const matchesNoTitle = !filterNoTitle || title === "task title";
+    const matchesNoDescription = !filterNoDescription || description === "task description";
+    const matchesUrgent = !filterUrgent || isUrgent;
+
+    if (matchesSearch && matchesNoDate && matchesNoTitle && matchesNoDescription && matchesUrgent) {
       card.closest(".task-wrapper").style.display = "block";
     } else {
       card.closest(".task-wrapper").style.display = "none";
