@@ -151,7 +151,7 @@ nav {
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  padding: 10px 0px;
+  padding-top: 10px;
   padding-left: 15px;
 }
 
@@ -217,7 +217,6 @@ nav {
   justify-content: center;
   align-items: center;
   width: 90%;
-  margin-top: 10px;
   padding: 5px 0px;
   border-radius: 10px;
   color: rgb(99, 99, 99);
@@ -325,6 +324,8 @@ main {
   cursor: pointer;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
   transition: all 0.3s ease-in-out;
+
+  /* position: relative; */
 }
 
 .filter-btn:hover {
@@ -335,6 +336,101 @@ main {
 .filter-btn:active {
   transform: scale(0.95);
 }
+
+
+
+/*---------------------------> THIS IS FOR FILTER OPTIONS CONTAINER <------------------------------------*/
+.filter-btn-wrapper {
+  position: relative; /* ← makes filter-options position relative to this */
+  margin-right: 20px;
+}
+
+.filter-options-container {
+  display: flex; 
+  position: absolute;
+  right: 20px;
+  top: 100%; 
+  width: 250px;
+  height: 180px;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.2);
+  background-color: white;
+  z-index: 100;
+}
+
+
+
+.filter-options-inset-container {
+  border: 1px solid;
+  display: flex; 
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 10px 15px;
+
+}
+
+
+.search-task-title {
+  /* border: 1px solid; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 7px 10px;
+  border-radius: 5px;
+  gap: 5px;
+  margin: 5px 0px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
+  transition: all 0.3s ease-in-out;
+}
+
+.search-task-title:focus-within {
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+}
+
+.search-task-title input {
+  outline: 0;
+  border: none;
+}
+
+
+.filter-other-options {
+  /* border: 1px solid; */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.filter-other-options label {
+  cursor: pointer;
+}
+
+.filter-option {
+  /* border: 1px solid; */
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: 15px;
+}
+
+.filter-option input {
+  cursor: pointer;
+}
+
+
+
+
+
+
+
+
 
 .progression-content-container {
   /* border: 1px solid; */
