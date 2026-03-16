@@ -28,6 +28,7 @@ let tasks = {
 };
 let currentTaskId = null;
 let draggedTaskId = null;
+let searchQuery = "";
 
 
 
@@ -119,6 +120,48 @@ addNewTask.addEventListener('click', () => {
   updateCounts();
   console.log(tasks);
 })
+
+
+
+/* ------------------------------------>THIS IS FOR FILTER FUNCTION<------------------------------------ */
+const filterButton = document.querySelector(".filter-btn");
+const openFilterOptions = document.querySelector(".filter-options-container");
+
+filterButton.addEventListener('click',() => {
+  openFilterOptions.classList.toggle("open");
+})
+
+
+
+const filterSearchInput = document.querySelector(".search-task-title input");
+
+filterSearchInput.addEventListener('input', (e) => {
+  searchQuery = e.target.value.toLowerCase().trim();
+  filterTasks();
+})
+
+
+function filterTasks() {
+  const allTaskCards = document.querySelectorAll(".task-container");
+
+  allTaskCards.forEach(card => {
+    const title = card.querySelector('h3').textContent.toLowerCase();
+
+    if (title.includes(searchQuery)) {
+      card.closest(".task-wrapper").style.display = "block";
+    } else {
+      card.closest(".task-wrapper").style.display = "none";
+    }
+  })
+}
+
+
+
+
+
+
+
+
 
 
 /* ------------------------------------>THIS IS FOR OPENING MODAL<------------------------------------ */
@@ -383,16 +426,6 @@ commentList.addEventListener('click',(e) => {
   const taskCard = document.querySelector(`[data-id="${currentTaskId}"]`);
   taskCard.querySelector('.task-comment p').textContent = existingTask.comment.length;
 })
-
-
-
-
-
-
-
-
-
-
 
 
 

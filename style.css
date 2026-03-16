@@ -347,7 +347,7 @@ main {
 }
 
 .filter-options-container {
-  display: flex; 
+  display: none; 
   position: absolute;
   right: 20px;
   top: 100%; 
@@ -358,6 +358,10 @@ main {
   background-color: white;
   z-index: 100;
   background-color: var(--color11);
+}
+
+.filter-options-container.open {
+  display: flex;
 }
 
 
