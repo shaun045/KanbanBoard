@@ -343,6 +343,7 @@ main {
 .filter-btn-wrapper {
   position: relative; /* ← makes filter-options position relative to this */
   margin-right: 20px;
+  color: white;
 }
 
 .filter-options-container {
@@ -353,15 +354,15 @@ main {
   width: 250px;
   height: 180px;
   border-radius: 10px;
-  box-shadow: 0 0 8px rgba(0,0,0,0.2);
+  box-shadow: 0 0 8px rgba(0,0,0,0.3);
   background-color: white;
   z-index: 100;
+  background-color: var(--color11);
 }
 
 
 
 .filter-options-inset-container {
-  border: 1px solid;
   display: flex; 
   justify-content: center;
   align-items: flex-start;
@@ -369,7 +370,6 @@ main {
   width: 100%;
   height: 100%;
   padding: 10px 15px;
-
 }
 
 
@@ -382,6 +382,7 @@ main {
   border-radius: 5px;
   gap: 5px;
   margin: 5px 0px;
+  background-color: white;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
   transition: all 0.3s ease-in-out;
 }
@@ -390,9 +391,15 @@ main {
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
 }
 
+
+.search-task-title:focus-within .fa-magnifying-glass {
+  color: black;
+}
+
 .search-task-title input {
   outline: 0;
   border: none;
+  transition: all 0.3s ease-in-out;
 }
 
 
