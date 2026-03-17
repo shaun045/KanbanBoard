@@ -155,6 +155,7 @@ addNewTask.addEventListener('click', () => {
   saveToStorage();
   renderTask(taskData);
   updateCounts();
+  updateTotalTaskCount();
 })
 
 
@@ -458,6 +459,7 @@ progressionTaskLists.forEach(list => {
     tasks.doing = tasks.doing.filter(task => task.id !== taskId);
     tasks.done = tasks.done.filter(task => task.id !== taskId);
 
+    updateTotalTaskCount();
     saveToStorage();
     updateCounts();
     taskCard.remove();
@@ -598,7 +600,26 @@ function renderAllTasks() {
   tasks.todo.forEach(task => renderTask(task, "todo"));
   tasks.doing.forEach(task => renderTask(task, "doing"));
   tasks.done.forEach(task => renderTask(task, "done"));
+
+  updateTotalTaskCount();
 }
+
+
+
+/* ------------------------------------> THIS IS FOR TOTAL TASKS DATA<------------------------------------*/
+const totalTasksCountDisplay = document.querySelector(".number h3");
+function updateTotalTaskCount() {
+  const todoCount = tasks.todo.length;
+  const doingCount = tasks.doing.length;
+  const doneCount = tasks.done.length;
+
+  const totalTaskCount = todoCount + doingCount + doneCount;
+
+  totalTasksCountDisplay.textContent = totalTaskCount;
+}
+
+
+
 
 
 renderAllTasks();
