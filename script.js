@@ -28,6 +28,7 @@ let tasks = {
 };
 let currentTaskId = null;
 let draggedTaskId = null;
+let isUrgent = false;
 let searchQuery = "";
 
 
@@ -36,9 +37,26 @@ let filterNoTitle = false;
 let filterNoDescription = false;
 let filterUrgent = false;
 
+try {
+  const storedTasks = JSON.parse(localStorage.getItem("tasks"));
+
+  if (storedTasks) {
+    tasks = storedTasks;
+  }
+} catch (error) {
+  console.error("Storage error", error)
+}
+
+
+function saveToStorage() {
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+}
 
 
 
+function getAllTasks() {
+  return [...tasks.todo, ...tasks.doing, ...tasks.done];
+}
 
 
 /* ------------------------------------> THIS IS FOR GETTING TASK INFORMATION <------------------------------------ */
@@ -56,13 +74,13 @@ function getTaskInformation() {
     description: taskDescription.value.trim(),
     comment: [],
     date: selectedDate,
-    status: "none",
+    status: isUrgent,
     id: Date.now()
   };
 }
 
 
-function renderTask(taskData) {
+function renderTask(taskData, column = "todo") {
   const newTask = document.createElement('li');
 
   newTask.innerHTML = `
@@ -102,10 +120,22 @@ function renderTask(taskData) {
     </div>
   `;
 
-  todoTaskList.appendChild(newTask);
+  const columnList = document.querySelector(`.${column}-progress-list ul`);
+  columnList.appendChild(newTask);
+  
+
+  if (taskData.status === "urgent") {
+    const taskWrapper = newTask.querySelector(".task-wrapper");
+    const bannerFlag = newTask.querySelector(".urgent-banner");
+    const flagIcon = newTask.querySelector(".task-status i");
+    taskWrapper.classList.add("urgent");
+    bannerFlag.classList.add("open");
+    flagIcon.classList.add("open");
+  }
 
   const taskContainer = newTask.querySelector('.task-container');
   taskContainer.classList.add('open');
+  taskContainer.classList.add(column);
 
   setTimeout(() => {
     taskContainer.classList.remove('open');
@@ -122,9 +152,9 @@ addNewTask.addEventListener('click', () => {
   selectedDate = "No Date";
   const taskData = getTaskInformation();
   tasks.todo.push(taskData);
+  saveToStorage();
   renderTask(taskData);
   updateCounts();
-  console.log(tasks);
 })
 
 
@@ -211,8 +241,7 @@ progressionTaskLists.forEach(list => {
       if (clickedTask && !isDeleteBtn && !urgencyBannerFlag) {
         currentTaskId = Number(clickedTask.dataset.id);
 
-        const allTasks = [...tasks.todo, ...tasks.doing, ...tasks.done];
-        const existingTask = allTasks.find(task => task.id === currentTaskId);
+        const existingTask = getAllTasks().find(task => task.id === currentTaskId);
 
         taskTitle.value = existingTask.title;
         taskDescription.value = existingTask.description;
@@ -220,7 +249,6 @@ progressionTaskLists.forEach(list => {
         selectedDate = existingTask.date;
         renderComments(existingTask.comment);
         updateCommentCounts();
-
 
         kanbanModal.classList.add("open");
         taskTitle.setAttribute("readonly", true);
@@ -264,8 +292,7 @@ function toggleCommentSection() {
 function updateCommentCounts() {
   const numberOfCommentDisplay = document.querySelector(".modal-comment-display p");
 
-  const allTasks = [...tasks.todo, ...tasks.doing, ...tasks.done];
-  const existingTask = allTasks.find(task => task.id === currentTaskId);
+  const existingTask = getAllTasks().find(task => task.id === currentTaskId);
 
   const commentCounts = Number(existingTask.comment.length);
 
@@ -322,12 +349,12 @@ addModalComment.addEventListener('click', () => {
   const commentText = modalCommentInput.value.trim();
   if (!commentText) return;
 
-  const allTasks = [...tasks.todo, ...tasks.doing, ...tasks.done];
-  const existingTask = allTasks.find(task => task.id === currentTaskId);
+  const existingTask = getAllTasks().find(task => task.id === currentTaskId);
 
   const newComment = createComment(commentText);
   existingTask.comment.push(newComment);
   updateCommentCounts();
+  saveToStorage();
 
 
   const taskCard = document.querySelector(`[data-id="${currentTaskId}"]`);
@@ -350,8 +377,7 @@ const closeModalBtn = document.querySelector(".exit-button-container i");
 closeModalBtn.addEventListener('click', () => {
   const taskData = getTaskInformation();
 
-  const allTasks = [...tasks.todo, ...tasks.doing, ...tasks.done];
-  const existingTask = allTasks.find(task => task.id === currentTaskId);
+  const existingTask = getAllTasks().find(task => task.id === currentTaskId);
   const taskCard = document.querySelector(`[data-id="${currentTaskId}"]`);
 
   if (existingTask) {
@@ -362,6 +388,8 @@ closeModalBtn.addEventListener('click', () => {
     taskCard.querySelector('h3').textContent = taskData.title;
     taskCard.querySelector('.task-description p').textContent = taskData.description;
     taskCard.querySelector('.task-date span').textContent = taskData.date;
+
+    saveToStorage();
   }
     
   modalBackGroundContainer.classList.remove("expanded");
@@ -385,7 +413,7 @@ const dateInput = flatpickr("#task-date", {
     const options = { month: "short", day: "numeric"};
     const formatted = date.toLocaleDateString("en-US", options);
 
-
+    
     document.getElementById("date-text").textContent = formatted;
     selectedDate = formatted;
   }
@@ -430,6 +458,7 @@ progressionTaskLists.forEach(list => {
     tasks.doing = tasks.doing.filter(task => task.id !== taskId);
     tasks.done = tasks.done.filter(task => task.id !== taskId);
 
+    saveToStorage();
     updateCounts();
     taskCard.remove();
     console.log(tasks);
@@ -451,10 +480,10 @@ commentList.addEventListener('click',(e) => {
   const commentLi = e.target.closest("li");
   const commentId = Number(commentLi.dataset.id);
 
-  const allTasks = [...tasks.todo, ...tasks.doing, ...tasks.done];
-  const existingTask = allTasks.find(task => task.id === currentTaskId);
+  const existingTask = getAllTasks().find(task => task.id === currentTaskId);
   existingTask.comment = existingTask.comment.filter(c => c.id !== commentId);
 
+  saveToStorage();
   commentLi.remove();
   updateCommentCounts();
 
@@ -496,8 +525,7 @@ progressionTaskLists.forEach(list => {
     e.preventDefault();
     const targetColumn = list.dataset.column;
 
-    const allTasks = [...tasks.todo, ...tasks.doing, ...tasks.done];
-    const draggedTaskCard = allTasks.find(task => task.id === draggedTaskId);
+    const draggedTaskCard = getAllTasks().find(task => task.id === draggedTaskId);
 
     if (!draggedTaskCard) return;
 
@@ -513,6 +541,7 @@ progressionTaskLists.forEach(list => {
     taskElement.classList.remove("todo", "doing", "done");
     taskElement.classList.add(targetColumn);
     list.appendChild(taskWrapper);
+    saveToStorage();
     taskWrapper.classList.add("dropped");
     setTimeout(() => {
       taskWrapper.classList.remove("dropped");
@@ -529,6 +558,7 @@ progressionTaskLists.forEach(list => {
     if (!taskCard) return;
 
     clickedTaskWrapper.classList.remove("dragging");
+    saveToStorage();
   });
 });
 
@@ -549,12 +579,32 @@ progressionTaskLists.forEach(list => {
     const bannerFlag = taskWrapper.querySelector(".urgent-banner")
     const taskId = Number(taskCard.dataset.id);
 
-
+    const existingTask = getAllTasks().find(task => task.id === taskId);
+    existingTask.status = existingTask.status === "urgent" ? "none" : "urgent";
+    
     taskWrapper.classList.toggle("urgent");
     bannerFlag.classList.toggle("open");
     urgencyBannerFlag.classList.toggle("open");
+    saveToStorage();
   })
 })
+
+
+function renderAllTasks() {
+  document.querySelector(".todo-progress-list ul").innerHTML = '';
+  document.querySelector(".doing-progress-list ul").innerHTML = '';
+  document.querySelector(".done-progress-list ul").innerHTML = '';
+
+  tasks.todo.forEach(task => renderTask(task, "todo"));
+  tasks.doing.forEach(task => renderTask(task, "doing"));
+  tasks.done.forEach(task => renderTask(task, "done"));
+}
+
+
+renderAllTasks();
+updateCounts();
+
+
 
 
 
