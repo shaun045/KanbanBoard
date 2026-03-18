@@ -1437,7 +1437,6 @@ textarea {
   align-items: center;
   width: 100%;
   padding-left: 40px;
-  /* height: 100%; */
 }
 
 
@@ -1447,7 +1446,6 @@ textarea {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* position: relative; */
   margin: 20px 0px;
   width: 250px;
   padding-bottom: 20px;
@@ -1455,7 +1453,6 @@ textarea {
   border-radius: 10px;
   color: white;
   background-color: var(--color11);
-  /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); */
   box-shadow: -5px 5px 5px rgba(0, 0, 0, 0.5);
 }
 
@@ -1479,19 +1476,14 @@ textarea {
 
 
 
-
-
-
 .number-of-tasks {
   /* border: 1px solid; */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* position: absolute; */
   width: 100%;
   line-height: 0;
   padding: 0px 10px;
-  /* margin-top: 80px; */
 }
 
 
@@ -1538,6 +1530,19 @@ textarea {
   height: 100%;
   font-size: 17px;
 }
+
+
+
+.up {
+  color: rgb(29, 243, 29);
+  background-color: rgba(131, 241, 131, 0.5);
+}
+
+.down {
+  background-color: #f5544877; 
+  color: #f44336;
+}
+
 
 
 

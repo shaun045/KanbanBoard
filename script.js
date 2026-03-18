@@ -607,15 +607,59 @@ function renderAllTasks() {
 
 
 /* ------------------------------------> THIS IS FOR TOTAL TASKS DATA<------------------------------------*/
+
 const totalTasksCountDisplay = document.querySelector(".number h3");
 function updateTotalTaskCount() {
   const todoCount = tasks.todo.length;
   const doingCount = tasks.doing.length;
   const doneCount = tasks.done.length;
 
-  const totalTaskCount = todoCount + doingCount + doneCount;
+  const currentTotal = todoCount + doingCount + doneCount;
 
-  totalTasksCountDisplay.textContent = totalTaskCount;
+  totalTasksCountDisplay.textContent = currentTotal;
+
+  updateTaskCountIndicator(currentTotal);
+}
+
+const updateContainer = document.querySelector(".new-update");
+const updateIcon = updateContainer.querySelector("i");
+const updateSign = updateContainer.querySelector("span:first-child");
+const updateNumber = updateContainer.querySelector("span:last-child");
+
+let previousTotal = getAllTasks().length;
+let peakTotal = previousTotal;
+let lastDirection = null;
+
+function updateTaskCountIndicator(currentTotal) {
+  const diff = currentTotal - previousTotal;
+
+  if (diff === 0) return;
+
+  const currentDirection = diff > 0 ? "up" : "down";
+
+  if (currentDirection !== lastDirection) {
+    baseTotal = previousTotal;
+    lastDirection = currentDirection;
+  }
+
+  const totalDiff = currentTotal - baseTotal;
+
+  if (diff > 0) {
+    updateContainer.classList.add("up");
+    updateContainer.classList.remove("down");
+
+    updateIcon.className = "fa-solid fa-angles-up";
+    updateSign.textContent = "+";
+    updateNumber.textContent = totalDiff;
+  } else if (diff < 0) {
+    updateContainer.classList.add("down");
+    updateContainer.classList.remove("up");
+
+    updateIcon.className = "fa-solid fa-angles-down";
+    updateSign.textContent = "-";
+    updateNumber.textContent = Math.abs(totalDiff);
+  } 
+  previousTotal = currentTotal;
 }
 
 
