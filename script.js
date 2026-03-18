@@ -19,10 +19,12 @@ const allProgressionLists = document.querySelectorAll(".progression-list ul");
 
 /* ------------------------------------> THIS IS FOR CHART DATA<------------------------------------*/
 function updateMyChart() {
+  if (!window.myChart) return;
+
   window.myChart.data.datasets[0].data = [
-    tasks.todo.length,
-    tasks.doing.length,
-    tasks.done.length
+    boards[currentBoard].todo.length,
+    boards[currentBoard].doing.length,
+    boards[currentBoard].done.length
   ];
 
   window.myChart.update();
@@ -32,11 +34,22 @@ function updateMyChart() {
 
 
 /* ------------------------------------> THIS IS FOR TASKS STORAGE <------------------------------------ */
-let tasks = {
-  todo: [],
-  doing: [],
-  done: []
+let boards = {
+  default: {
+    todo: [],
+    doing: [],
+    done: []
+  }
 };
+
+let currentBoard = "default";
+
+
+// let tasks = {
+//   todo: [],
+//   doing: [],
+//   done: []
+// };
 let currentTaskId = null;
 let draggedTaskId = null;
 let isUrgent = false;
@@ -49,10 +62,10 @@ let filterNoDescription = false;
 let filterUrgent = false;
 
 try {
-  const storedTasks = JSON.parse(localStorage.getItem("tasks"));
+  const storedBoards = JSON.parse(localStorage.getItem("boards"));
 
-  if (storedTasks) {
-    tasks = storedTasks;
+  if (storedBoards) {
+    boards = storedBoards;
   }
 } catch (error) {
   console.error("Storage error", error)
@@ -60,13 +73,13 @@ try {
 
 
 function saveToStorage() {
-  localStorage.setItem('tasks', JSON.stringify(tasks));
+  localStorage.setItem('boards', JSON.stringify(boards));
 }
 
 
 
 function getAllTasks() {
-  return [...tasks.todo, ...tasks.doing, ...tasks.done];
+  return [...boards[currentBoard].todo, ...boards[currentBoard].doing, ...boards[currentBoard].done];
 }
 
 
@@ -162,7 +175,7 @@ addNewTask.addEventListener('click', () => {
   taskDescription.value = "Task Description";
   selectedDate = "No Date";
   const taskData = getTaskInformation();
-  tasks.todo.push(taskData);
+  boards[currentBoard].todo.push(taskData);
   saveToStorage();
   renderTask(taskData);
   updateCounts();
@@ -376,7 +389,6 @@ addModalComment.addEventListener('click', () => {
 
   renderComments(existingTask.comment);
   modalCommentInput.value = '';
-  console.log(tasks);
 })
 
 
@@ -410,10 +422,8 @@ closeModalBtn.addEventListener('click', () => {
   modalInsetContainer.classList.remove("expanded");
   modalCommentSection.classList.remove("expanded");
 
-
-  editIcon.classList.remove("open");
   kanbanModal.classList.remove("open");
-  console.log(tasks);
+  editIcon.classList.remove("open");
 })
 
 
@@ -449,9 +459,9 @@ const progressionCountDone = document.querySelector(".progression-count-done");
 
 
 function updateCounts() {
-  progressionCountTodo.textContent = tasks.todo.length;
-  progressionCountDoing.textContent = tasks.doing.length;
-  progressionCountDone.textContent = tasks.done.length;
+  progressionCountTodo.textContent = boards[currentBoard].todo.length;
+  progressionCountDoing.textContent = boards[currentBoard].doing.length;
+  progressionCountDone.textContent = boards[currentBoard].done.length;
 }
 
 
@@ -468,9 +478,9 @@ progressionTaskLists.forEach(list => {
     const taskCard = e.target.closest(".task-container");
     const taskId = Number(taskCard.dataset.id);
 
-    tasks.todo = tasks.todo.filter(task => task.id !== taskId);
-    tasks.doing = tasks.doing.filter(task => task.id !== taskId);
-    tasks.done = tasks.done.filter(task => task.id !== taskId);
+    boards[currentBoard].todo = boards[currentBoard].todo.filter(task => task.id !== taskId);
+    boards[currentBoard].doing = boards[currentBoard].doing.filter(task => task.id !== taskId);
+    boards[currentBoard].done = boards[currentBoard].done.filter(task => task.id !== taskId);
 
     taskCard.remove();
     
@@ -546,11 +556,11 @@ progressionTaskLists.forEach(list => {
 
     if (!draggedTaskCard) return;
 
-    for (let column in tasks) {
-      tasks[column] = tasks[column].filter(task => task.id !== draggedTaskId)
+    for (let column in boards[currentBoard]) {
+      boards[currentBoard][column] = boards[currentBoard][column].filter(task => task.id !== draggedTaskId)
     };
     
-    tasks[targetColumn].push(draggedTaskCard);
+    boards[currentBoard][targetColumn].push(draggedTaskCard);
 
 
     const taskElement = document.querySelector(`[data-id="${draggedTaskId}"]`);
@@ -583,8 +593,6 @@ progressionTaskLists.forEach(list => {
 
 
 /* ------------------------------------> THIS IS FOR STATUS FLAG/BANNER<------------------------------------*/
-// const taskStatusFlag = document.querySelector(".task-status i");
-
 
 progressionTaskLists.forEach(list => {
   list.addEventListener('click', (e) => {
@@ -613,9 +621,9 @@ function renderAllTasks() {
   document.querySelector(".doing-progress-list ul").innerHTML = '';
   document.querySelector(".done-progress-list ul").innerHTML = '';
 
-  tasks.todo.forEach(task => renderTask(task, "todo"));
-  tasks.doing.forEach(task => renderTask(task, "doing"));
-  tasks.done.forEach(task => renderTask(task, "done"));
+  boards[currentBoard].todo.forEach(task => renderTask(task, "todo"));
+  boards[currentBoard].doing.forEach(task => renderTask(task, "doing"));
+  boards[currentBoard].done.forEach(task => renderTask(task, "done"));
 
   updateTotalTaskCount();
 }
@@ -626,9 +634,9 @@ function renderAllTasks() {
 
 const totalTasksCountDisplay = document.querySelector(".number h3");
 function updateTotalTaskCount() {
-  const todoCount = tasks.todo.length;
-  const doingCount = tasks.doing.length;
-  const doneCount = tasks.done.length;
+  const todoCount = boards[currentBoard].todo.length;
+  const doingCount = boards[currentBoard].doing.length;
+  const doneCount = boards[currentBoard].done.length;
 
   const currentTotal = todoCount + doingCount + doneCount;
 

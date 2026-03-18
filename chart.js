@@ -28,7 +28,7 @@ const percentageLabels = {
       labels: ['To Do', 'Doing', 'Done'],
       datasets: [{
         label: 'Task Categories Percentage',
-        data: [tasks.todo.length, tasks.doing.length, tasks.done.length],
+        data: [boards[currentBoard].todo.length, boards[currentBoard].doing.length, boards[currentBoard].done.length],
         borderWidth: 1,
         backgroundColor: [
           'rgba(255, 225, 185, 1)',
