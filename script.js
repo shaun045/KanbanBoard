@@ -626,9 +626,24 @@ const updateIcon = updateContainer.querySelector("i");
 const updateSign = updateContainer.querySelector("span:first-child");
 const updateNumber = updateContainer.querySelector("span:last-child");
 
-let previousTotal = getAllTasks().length;
-let peakTotal = previousTotal;
-let lastDirection = null;
+
+let previousTotal = Number(localStorage.getItem("previousTotal")) || getAllTasks().length;
+let baseTotal = Number(localStorage.getItem("baseTotal")) || previousTotal;
+let lastDirection = localStorage.getItem("lastDirection") || null;
+
+if (lastDirection === "up") {
+  updateContainer.classList.add("up");
+  updateContainer.classList.remove("down");
+  updateIcon.className = "fa-solid fa-angles-up";
+  updateSign.textContent = "+";
+  updateNumber.textContent = getAllTasks().length - baseTotal;
+} else if (lastDirection === "down") {
+  updateContainer.classList.add("down");
+  updateContainer.classList.remove("up");
+  updateIcon.className = "fa-solid fa-angles-down";
+  updateSign.textContent = "-";
+  updateNumber.textContent = Math.abs(getAllTasks().length - baseTotal);
+}
 
 function updateTaskCountIndicator(currentTotal) {
   const diff = currentTotal - previousTotal;
@@ -640,9 +655,26 @@ function updateTaskCountIndicator(currentTotal) {
   if (currentDirection !== lastDirection) {
     baseTotal = previousTotal;
     lastDirection = currentDirection;
+    localStorage.setItem("baseTotal", baseTotal);  
+    localStorage.setItem("lastDirection", lastDirection);
   }
 
   const totalDiff = currentTotal - baseTotal;
+
+  if (currentTotal === 0) {
+    updateNumber.textContent = "0";
+    updateSign.textContent = "";
+    updateContainer.classList.remove("up", "down");
+    previousTotal = 0;
+    baseTotal = 0;
+    lastDirection = null;
+    localStorage.setItem("previousTotal", 0);
+    localStorage.setItem("baseTotal", 0);
+    localStorage.removeItem("lastDirection");
+    return;
+  }
+
+  if (diff === 0) return;
 
   if (diff > 0) {
     updateContainer.classList.add("up");
@@ -659,7 +691,23 @@ function updateTaskCountIndicator(currentTotal) {
     updateSign.textContent = "-";
     updateNumber.textContent = Math.abs(totalDiff);
   } 
+  
+  // if (lastDirection === "up") {
+  //   updateContainer.classList.add("up");
+  //   updateContainer.classList.remove("down");
+  //   updateIcon.className = "fa-solid fa-angles-up";
+  //   updateSign.textContent = "+";
+  //   updateNumber.textContent = getAllTasks().length - baseTotal;
+  // } else if (lastDirection === "down") {
+  //   updateContainer.classList.add("down");
+  //   updateContainer.classList.remove("up");
+  //   updateIcon.className = "fa-solid fa-angles-down";
+  //   updateSign.textContent = "-";
+  //   updateNumber.textContent = Math.abs(getAllTasks().length - baseTotal);
+  // }
+
   previousTotal = currentTotal;
+  localStorage.setItem("previousTotal", previousTotal);
 }
 
 
