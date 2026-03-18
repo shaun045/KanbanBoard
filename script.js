@@ -17,6 +17,17 @@ const progressionTaskLists = document.querySelectorAll(".progression-list");
 /* ------------------------------------> THIS IS FOR TASKS LIST <------------------------------------ */
 const allProgressionLists = document.querySelectorAll(".progression-list ul");
 
+/* ------------------------------------> THIS IS FOR CHART DATA<------------------------------------*/
+function updateMyChart() {
+  window.myChart.data.datasets[0].data = [
+    tasks.todo.length,
+    tasks.doing.length,
+    tasks.done.length
+  ];
+
+  window.myChart.update();
+}
+
 
 
 
@@ -156,6 +167,7 @@ addNewTask.addEventListener('click', () => {
   renderTask(taskData);
   updateCounts();
   updateTotalTaskCount();
+  updateMyChart();
 })
 
 
@@ -250,6 +262,7 @@ progressionTaskLists.forEach(list => {
         selectedDate = existingTask.date;
         renderComments(existingTask.comment);
         updateCommentCounts();
+        updateMyChart();
 
         kanbanModal.classList.add("open");
         taskTitle.setAttribute("readonly", true);
@@ -459,11 +472,13 @@ progressionTaskLists.forEach(list => {
     tasks.doing = tasks.doing.filter(task => task.id !== taskId);
     tasks.done = tasks.done.filter(task => task.id !== taskId);
 
-    updateTotalTaskCount();
+    taskCard.remove();
+    
     saveToStorage();
     updateCounts();
-    taskCard.remove();
-    console.log(tasks);
+    updateTotalTaskCount();
+    updateMyChart();
+    
   })
 })
 
@@ -549,6 +564,7 @@ progressionTaskLists.forEach(list => {
       taskWrapper.classList.remove("dropped");
     }, 300);
     updateCounts();
+    updateMyChart();
   });
 });
 
@@ -691,20 +707,6 @@ function updateTaskCountIndicator(currentTotal) {
     updateSign.textContent = "-";
     updateNumber.textContent = Math.abs(totalDiff);
   } 
-  
-  // if (lastDirection === "up") {
-  //   updateContainer.classList.add("up");
-  //   updateContainer.classList.remove("down");
-  //   updateIcon.className = "fa-solid fa-angles-up";
-  //   updateSign.textContent = "+";
-  //   updateNumber.textContent = getAllTasks().length - baseTotal;
-  // } else if (lastDirection === "down") {
-  //   updateContainer.classList.add("down");
-  //   updateContainer.classList.remove("up");
-  //   updateIcon.className = "fa-solid fa-angles-down";
-  //   updateSign.textContent = "-";
-  //   updateNumber.textContent = Math.abs(getAllTasks().length - baseTotal);
-  // }
 
   previousTotal = currentTotal;
   localStorage.setItem("previousTotal", previousTotal);
@@ -712,10 +714,9 @@ function updateTaskCountIndicator(currentTotal) {
 
 
 
-
-
 renderAllTasks();
 updateCounts();
+updateMyChart();
 
 
 

@@ -22,13 +22,13 @@ const percentageLabels = {
   }
 };
 
-  new Chart(ctx, {
+  window.myChart = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: ['To Do', 'Doing', 'Done'],
       datasets: [{
         label: 'Task Categories Percentage',
-        data: [12, 19, 3, 5, 2, 3],
+        data: [tasks.todo.length, tasks.doing.length, tasks.done.length],
         borderWidth: 1,
         backgroundColor: [
           'rgba(255, 225, 185, 1)',
