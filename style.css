@@ -215,26 +215,27 @@ nav {
 .master-list-container li{
   list-style-type: none;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   width: 90%;
-  padding: 5px 0px;
+  padding: 5px 12px;
   margin-bottom: 8px;
   border-radius: 10px;
   color: rgb(99, 99, 99);
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-
-  position: relative;
 }
 
 .master-list-container li i{
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
   right: 10px;
-  font-size: 20px;
+  font-size: 15px;
+}
+
+.master-list-container li .fa-pen-to-square {
+  font-size: 18px;
 }
 
 .master-list-container li:hover{
@@ -270,6 +271,10 @@ main {
   height: 100%;
   display: flex;
   flex-direction: column;
+}
+
+main.hidden {
+  display: none;
 }
 
 .category-title {

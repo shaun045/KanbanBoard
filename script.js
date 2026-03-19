@@ -12,8 +12,9 @@ const progressionTaskLists = document.querySelectorAll(".progression-list");
 
 
 /* ------------------------------------> THIS IS FOR MASTER LIST <------------------------------------*/
+const mainTab = document.querySelector(".main");
+const masterListTab = document.querySelector(".master-list-container ul");
 const addNewMasterTab = document.querySelector(".add-new-topic-btn button");
-
 addNewMasterTab.addEventListener("click", () => {
   const uniqueId = "tab-" + Date.now();
 
@@ -27,7 +28,7 @@ addNewMasterTab.addEventListener("click", () => {
 
   const newTab = document.createElement("li");
   newTab.innerHTML = `
-  ${"New Tab"} <i class="fa-solid fa-pen-to-square"></i>
+  <i class="fa-solid fa-pen-to-square"></i> ${"New Tab"} <i class="fa-solid fa-trash"></i>
   `;
 
   newTab.dataset.id = uniqueId;
@@ -35,11 +36,14 @@ addNewMasterTab.addEventListener("click", () => {
   document.querySelector(".master-list-container ul").appendChild(newTab);
 });
 
-const masterListTab = document.querySelector(".master-list-container ul");
+
+
 masterListTab.addEventListener('click', (e) => {
   const clickedTab = e.target.closest("li");
 
   if (!clickedTab) return;
+
+  mainTab.classList.remove("hidden");
 
   document.querySelectorAll(".master-list-container li").forEach(tab => {
     tab.classList.remove("open");
@@ -50,28 +54,37 @@ masterListTab.addEventListener('click', (e) => {
   currentBoard = clickedTab.dataset.id;
 
   renderAllTasks();   
-  updateCounts();       
-  updateMyChart();  
+  updateCounts(); 
+  
+  requestAnimationFrame(() => {
+    initChart();
+    // updateMyChart();
+  });
 });
 
 
+function renderMasterList() {
+  const ul = document.querySelector(".master-list-container ul");
+  ul.innerHTML = '';
 
+  Object.keys(boards).forEach(boardId => {
+    if (boardId === "default") return;
 
+    const li = document.createElement("li");
+    li.innerHTML = `
+    <i class="fa-solid fa-pen-to-square"></i> ${"New Tab"} <i class="fa-solid fa-trash"></i>
+    `;
 
+    li.dataset.id = boardId;
+    ul.appendChild(li);
+  });
 
+  mainTab.classList.add("hidden");
 
-
-
-
-
-
-
-
-
-
-
-
-
+  renderAllTasks();
+  updateCounts();
+  updateMyChart();
+}
 
 
 
@@ -522,8 +535,6 @@ function updateCounts() {
 
 
 /* ------------------------------------> THIS IS FOR DELETING TASK ITEMS <------------------------------------*/
-
-
 progressionTaskLists.forEach(list => {
   list.addEventListener('click', (e) => {
     const deleteTaskButton = e.target.closest(".task-title i");
@@ -548,13 +559,7 @@ progressionTaskLists.forEach(list => {
 })
 
 
-
-
-
-
 /* ------------------------------------> THIS IS FOR DELETING TASK ITEMS <------------------------------------*/
-
-
 commentList.addEventListener('click',(e) => {
   const deleteBtn = e.target.closest(".modal-comment-delete i");
   if (!deleteBtn) return;
@@ -572,11 +577,6 @@ commentList.addEventListener('click',(e) => {
   const taskCard = document.querySelector(`[data-id="${currentTaskId}"]`);
   taskCard.querySelector('.task-comment p').textContent = existingTask.comment.length;
 })
-
-
-
-
-
 
 
 /* ------------------------------------> THIS IS FOR DRAG AND DROP FEATURE<------------------------------------*/
@@ -676,6 +676,7 @@ progressionTaskLists.forEach(list => {
 
 
 function renderAllTasks() {
+
   document.querySelector(".todo-progress-list ul").innerHTML = '';
   document.querySelector(".doing-progress-list ul").innerHTML = '';
   document.querySelector(".done-progress-list ul").innerHTML = '';
@@ -781,9 +782,8 @@ function updateTaskCountIndicator(currentTotal) {
 
 
 
-renderAllTasks();
-updateCounts();
-updateMyChart();
+renderMasterList();
+
 
 
 
