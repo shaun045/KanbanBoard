@@ -41,11 +41,14 @@ masterListTab.addEventListener('click', (e) => {
 
   if (!clickedTab) return;
 
-  currentBoard = clickedTab.dataset.id;
-  console.log(currentBoard);
+  document.querySelectorAll(".master-list-container li").forEach(tab => {
+    tab.classList.remove("open");
+  });
 
   clickedTab.classList.add("open");
-  
+
+  currentBoard = clickedTab.dataset.id;
+
   renderAllTasks();   
   updateCounts();       
   updateMyChart();  
@@ -603,13 +606,14 @@ progressionTaskLists.forEach(list => {
   list.addEventListener('drop', (e) => {
     e.preventDefault();
     const targetColumn = list.dataset.column;
+    const targetList = list.querySelector("ul");
+    if (!targetList) return;
 
     const draggedTaskCard = getAllTasks().find(task => task.id === draggedTaskId);
-
     if (!draggedTaskCard) return;
 
-    for (let column in boards[currentBoard]) {
-      boards[currentBoard][column] = boards[currentBoard][column].filter(task => task.id !== draggedTaskId)
+    for (let sourceColumn in boards[currentBoard]) {
+      boards[currentBoard][sourceColumn] = boards[currentBoard][sourceColumn].filter(task => task.id !== draggedTaskId)
     };
     
     boards[currentBoard][targetColumn].push(draggedTaskCard);
@@ -619,14 +623,17 @@ progressionTaskLists.forEach(list => {
     const taskWrapper = taskElement.closest(".task-wrapper");
     taskElement.classList.remove("todo", "doing", "done");
     taskElement.classList.add(targetColumn);
-    list.appendChild(taskWrapper);
-    saveToStorage();
+    // list.appendChild(taskWrapper);
+    targetList.appendChild(taskWrapper);
+    
     taskWrapper.classList.add("dropped");
     setTimeout(() => {
       taskWrapper.classList.remove("dropped");
     }, 300);
+    // renderAllTasks();
     updateCounts();
     updateMyChart();
+    saveToStorage();
   });
 });
 
