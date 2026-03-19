@@ -11,6 +11,64 @@ const progressionTaskLists = document.querySelectorAll(".progression-list");
 
 
 
+/* ------------------------------------> THIS IS FOR MASTER LIST <------------------------------------*/
+const addNewMasterTab = document.querySelector(".add-new-topic-btn button");
+
+addNewMasterTab.addEventListener("click", () => {
+  const uniqueId = "tab-" + Date.now();
+
+  boards[uniqueId] = {
+    todo: [],
+    doing: [],
+    done: []
+  };
+
+  saveToStorage();
+
+  const newTab = document.createElement("li");
+  newTab.innerHTML = `
+  ${"New Tab"} <i class="fa-solid fa-pen-to-square"></i>
+  `;
+
+  newTab.dataset.id = uniqueId;
+  
+  document.querySelector(".master-list-container ul").appendChild(newTab);
+});
+
+const masterListTab = document.querySelector(".master-list-container ul");
+masterListTab.addEventListener('click', (e) => {
+  const clickedTab = e.target.closest("li");
+
+  if (!clickedTab) return;
+
+  currentBoard = clickedTab.dataset.id;
+  console.log(currentBoard);
+
+  clickedTab.classList.add("open");
+  
+  renderAllTasks();   
+  updateCounts();       
+  updateMyChart();  
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -44,12 +102,6 @@ let boards = {
 
 let currentBoard = "default";
 
-
-// let tasks = {
-//   todo: [],
-//   doing: [],
-//   done: []
-// };
 let currentTaskId = null;
 let draggedTaskId = null;
 let isUrgent = false;

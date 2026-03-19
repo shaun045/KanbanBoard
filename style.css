@@ -208,6 +208,7 @@ nav {
   align-items: center;
   width: 100%;
   padding-left: 0;
+  flex-direction: column;
 }
 
 
@@ -218,10 +219,22 @@ nav {
   align-items: center;
   width: 90%;
   padding: 5px 0px;
+  margin-bottom: 8px;
   border-radius: 10px;
   color: rgb(99, 99, 99);
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+
+  position: relative;
+}
+
+.master-list-container li i{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 10px;
+  font-size: 20px;
 }
 
 .master-list-container li:hover{
@@ -234,6 +247,14 @@ nav {
 .master-list-container li:active{
   transform: scale(0.95);
 }
+
+
+.master-list-container li.open {
+  color: black;
+  transform: scale(1.02);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
 
 
 
