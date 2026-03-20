@@ -45,6 +45,12 @@ masterListTab.addEventListener('click', (e) => {
   const tab = e.target.closest("li");
   if (!tab) return;
 
+  if (e.target.closest(".delete-btn")) {
+  e.stopPropagation();
+  handleDeleteTab(tab);
+  return;
+  }
+
   if (e.target.closest(".edit-btn") || e.target.closest(".fa-check")) {
     e.stopPropagation();
     toggleEditTab(tab);
@@ -123,7 +129,7 @@ function toggleEditTab(tab) {
 
     inputEl.addEventListener("keydown", (e) => {
       if (e.key === "Enter") toggleEditTab(tab);
-    });
+      });
   } else {
     const newTitle = input.value.trim() || "New Tab";
 
@@ -143,8 +149,53 @@ function toggleEditTab(tab) {
 }
 
 
+function handleDeleteTab(tab) {
+  const tabId = tab.dataset.id;
 
+  if (tabId === "default") {
+    alert("Cannot delete default tab");
+    return;
+  }
 
+  if (!confirm("Delete this tab?")) return;
+
+  delete boards[tabId];
+  tab.remove();
+  saveToStorage();
+
+  handleAfterDelete(tabId);
+}
+
+function handleAfterDelete(deletedTabId) {
+  if (currentBoard !== deletedTabId) return;
+
+  const firstTab = document.querySelector(".master-list-container li");
+
+  if (firstTab) {
+    handleSwitchTab(firstTab);
+  } else {
+    mainTab.classList.add("hidden");
+  }
+}
+
+function handleSwitchTab(tab) {
+  document.querySelectorAll(".master-list-container li").forEach(t => {
+    t.classList.remove("open");
+  });
+
+  tab.classList.add("open");
+
+  currentBoard = tab.dataset.id;
+
+  mainTab.classList.remove("hidden");
+
+  renderAllTasks();
+  updateCounts();
+
+  requestAnimationFrame(() => {
+    initChart();
+  });
+}
 
 
 
@@ -173,6 +224,7 @@ function updateMyChart() {
 /* ------------------------------------> THIS IS FOR TASKS STORAGE <------------------------------------ */
 let boards = {
   default: {
+    name: "Default",
     todo: [],
     doing: [],
     done: []
@@ -687,14 +739,13 @@ progressionTaskLists.forEach(list => {
     const taskWrapper = taskElement.closest(".task-wrapper");
     taskElement.classList.remove("todo", "doing", "done");
     taskElement.classList.add(targetColumn);
-    // list.appendChild(taskWrapper);
     targetList.appendChild(taskWrapper);
     
     taskWrapper.classList.add("dropped");
     setTimeout(() => {
       taskWrapper.classList.remove("dropped");
     }, 300);
-    // renderAllTasks();
+
     updateCounts();
     updateMyChart();
     saveToStorage();
