@@ -19,6 +19,7 @@ addNewMasterTab.addEventListener("click", () => {
   const uniqueId = "tab-" + Date.now();
 
   boards[uniqueId] = {
+    name: "New Tab",
     todo: [],
     doing: [],
     done: []
@@ -28,7 +29,9 @@ addNewMasterTab.addEventListener("click", () => {
 
   const newTab = document.createElement("li");
   newTab.innerHTML = `
-  <i class="fa-solid fa-pen-to-square"></i> ${"New Tab"} <i class="fa-solid fa-trash"></i>
+  <i class="fa-solid fa-pen-to-square edit-btn"></i>
+  <span class="tab-title">${boards[uniqueId].name || "New"}</span>
+  <i class="fa-solid fa-trash delete-btn"></i>
   `;
 
   newTab.dataset.id = uniqueId;
@@ -39,6 +42,14 @@ addNewMasterTab.addEventListener("click", () => {
 
 
 masterListTab.addEventListener('click', (e) => {
+  const tab = e.target.closest("li");
+  if (!tab) return;
+
+  if (e.target.closest(".edit-btn") || e.target.closest(".fa-check")) {
+    e.stopPropagation();
+    toggleEditTab(tab);
+  }
+
   const clickedTab = e.target.closest("li");
 
   if (!clickedTab) return;
@@ -72,7 +83,9 @@ function renderMasterList() {
 
     const li = document.createElement("li");
     li.innerHTML = `
-    <i class="fa-solid fa-pen-to-square"></i> ${"New Tab"} <i class="fa-solid fa-trash"></i>
+    <i class="fa-solid fa-pen-to-square edit-btn"></i>
+    <span class="tab-title">${boards[boardId].name || "New Tab"}</span>
+    <i class="fa-solid fa-trash delete-btn"></i>
     `;
 
     li.dataset.id = boardId;
@@ -85,6 +98,56 @@ function renderMasterList() {
   updateCounts();
   updateMyChart();
 }
+
+
+/* ------------------------------------> THIS IS FOR EDIT MASTER TAB NAME<------------------------------------ */
+function toggleEditTab(tab) {
+  const editBtn = tab.querySelector(".edit-btn, .fa-check");
+  const titleSpan = tab.querySelector(".tab-title");
+
+  const input = tab.querySelector("input");
+
+  if (!input) {
+    const currentTitle = titleSpan.textContent;
+
+    const inputEl = document.createElement("input");
+    inputEl.value = currentTitle;
+    inputEl.classList.add("tab-input");
+
+    titleSpan.replaceWith(inputEl);
+
+    editBtn.classList.remove("fa-pen-to-square");
+    editBtn.classList.add("fa-check");
+
+    inputEl.focus();
+
+    inputEl.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") toggleEditTab(tab);
+    });
+  } else {
+    const newTitle = input.value.trim() || "New Tab";
+
+    const span = document.createElement("span");
+    span.classList.add("tab-title");
+    span.textContent = newTitle;
+
+    input.replaceWith(span);
+
+    editBtn.classList.remove("fa-check");
+    editBtn.classList.add("fa-pen-to-square");
+
+    const tabId = tab.dataset.id;
+    boards[tabId].name = newTitle;
+    saveToStorage();
+  }
+}
+
+
+
+
+
+
+
 
 
 
@@ -613,6 +676,7 @@ progressionTaskLists.forEach(list => {
     if (!draggedTaskCard) return;
 
     for (let sourceColumn in boards[currentBoard]) {
+      if (!Array.isArray(boards[currentBoard][sourceColumn])) continue;
       boards[currentBoard][sourceColumn] = boards[currentBoard][sourceColumn].filter(task => task.id !== draggedTaskId)
     };
     
