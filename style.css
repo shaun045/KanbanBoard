@@ -226,6 +226,11 @@ nav {
   transition: all 0.2s ease-in-out;
 }
 
+/* .master-list-container li.open {
+  background-color: var(--kanbanboard);
+  color: white;
+} */
+
 .master-list-container li i{
   display: flex;
   justify-content: center;

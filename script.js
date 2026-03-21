@@ -200,6 +200,40 @@ function handleSwitchTab(tab) {
 
 
 
+/* ------------------------------------> THIS IS FOR EDIT MASTER TAB SEARCH<------------------------------------ */
+const masterSearch = document.querySelector(".search-bar input");
+
+
+// let searchedText = "";
+
+masterSearch.addEventListener('input', (e) => {
+  const searchedText = e.target.value.toLowerCase().trim();
+
+  const tabs = document.querySelectorAll(".master-list-container li");
+
+  tabs.forEach(tab => {
+    const title = tab.querySelector(".tab-title").textContent.toLowerCase();
+
+    if (title.includes(searchedText)) {
+      tab.style.display = "flex";
+    } else {
+      tab.style.display = "none";
+    }
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* ------------------------------------> THIS IS FOR TASKS LIST <------------------------------------ */
