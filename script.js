@@ -54,7 +54,10 @@ masterListTab.addEventListener('click', (e) => {
   if (e.target.closest(".edit-btn") || e.target.closest(".fa-check")) {
     e.stopPropagation();
     toggleEditTab(tab);
+    return;
   }
+
+  handleSwitchTab(tab);
 
   const clickedTab = e.target.closest("li");
 
@@ -110,6 +113,7 @@ function renderMasterList() {
 function toggleEditTab(tab) {
   const editBtn = tab.querySelector(".edit-btn, .fa-check");
   const titleSpan = tab.querySelector(".tab-title");
+  const categoryTitle = document.querySelector(".category-title h1");
 
   const input = tab.querySelector("input");
 
@@ -143,6 +147,11 @@ function toggleEditTab(tab) {
     editBtn.classList.add("fa-pen-to-square");
 
     const tabId = tab.dataset.id;
+
+    if (currentBoard === tabId) {
+      categoryTitle.textContent = newTitle;
+    }
+
     boards[tabId].name = newTitle;
     saveToStorage();
   }
@@ -179,13 +188,20 @@ function handleAfterDelete(deletedTabId) {
 }
 
 function handleSwitchTab(tab) {
+  const tabId = tab.dataset.id;
+
+  if (!boards[tabId]) return;
+
+  currentBoard = tabId;
+
+  document.querySelector(".category-title h1").textContent =
+    boards[tabId].name || "New Tab";
+
   document.querySelectorAll(".master-list-container li").forEach(t => {
     t.classList.remove("open");
   });
 
   tab.classList.add("open");
-
-  currentBoard = tab.dataset.id;
 
   mainTab.classList.remove("hidden");
 
@@ -203,9 +219,6 @@ function handleSwitchTab(tab) {
 /* ------------------------------------> THIS IS FOR EDIT MASTER TAB SEARCH<------------------------------------ */
 const masterSearch = document.querySelector(".search-bar input");
 
-
-// let searchedText = "";
-
 masterSearch.addEventListener('input', (e) => {
   const searchedText = e.target.value.toLowerCase().trim();
 
@@ -221,19 +234,6 @@ masterSearch.addEventListener('input', (e) => {
     }
   });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /* ------------------------------------> THIS IS FOR TASKS LIST <------------------------------------ */
